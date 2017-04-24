@@ -1,9 +1,14 @@
 from datetime import datetime
 import smtplib
 
+# Archivo de logs
+carpeta_de_backups = '/config-backups/'
+carpeta_de_logs = '/backup-logs/'
+archivo_de_logs = carpeta_de_logs  + 'pretty_log.log'
+
 def abrir_log():
 	#Genero un archivo de logs para saber cuando falla un respaldo de configuraciones
-	pretty_log = open('pretty_log.log', 'a')
+	pretty_log = open(archivo_de_logs, 'a')
 	delimitador = '#############################################################################################################\n' +\
 	 '############################## Corrida correspondiente a la fecha ' + str(datetime.now().year) + '-' + str(datetime.now().month) + '-' + str(datetime.now().day) + ' #################################\n' +\
 	 '#############################################################################################################\n'
@@ -11,7 +16,7 @@ def abrir_log():
 	pretty_log.close()
 
 def cerrar_log():
-	pretty_log = open('pretty_log.log', 'a')
+	pretty_log = open(archivo_de_logs, 'a')
 	delimitador = '#############################################################################################################\n' +\
 	 '################################ Fin correspondiente a la fecha ' + str(datetime.now().year) + '-' + str(datetime.now().month) + '-' + str(datetime.now().day) + ' ###################################\n' +\
 	 '#############################################################################################################\n' +\

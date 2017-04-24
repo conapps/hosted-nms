@@ -9,6 +9,9 @@ lista_de_ips = []
 lista_de_hostnames = []
 traductor = {}
 mgmt_ip = '172.18.0.33'
+carpeta_de_backups = '/config-backups/'
+carpeta_de_logs = '/backup-logs/'
+archivo_de_logs = carpeta_de_logs  + 'pretty_log.log'
 
 # Recorro el archivo de IPs linea por linea eliminando los enters y generando un array con las IPs
 for linea in archivo_de_ips.readlines():
@@ -66,24 +69,23 @@ except:
 def respaldar_vyos():
 	print('CORRIENDO RESPALDAR_VYOS')
 	ahora = datetime.now()
+	ahora_string = str(ahora.year) + '_' + str(ahora.month) + '_' + str(ahora.day) + '-' + str(ahora.hour) + ':' + str(ahora.minute) + ':' + str(ahora.second)
 	print('Respaldando ' + traductor[env.host_string][0])
+	# Abro el archivo de log para loggear el resultado
+	pretty_log = open(archivo_de_logs, 'a')
 	try:
 		with settings(warn_only=True):
-			ahora = datetime.now()
-			ahora_string = str(ahora.year) + '_' + str(ahora.month) + '_' + str(ahora.day) + '-' + str(ahora.hour) + ':' + str(ahora.minute) + ':' + str(ahora.second)
 			filename = 'config_' + traductor[env.host_string][0] + '_' + ahora_string + '.cfg'			
 			resultado1 = run('/bin/bash -c -i "show configuration commands > ' + filename + '"', shell=False, shell_escape=True, warn_only=True)
-			resultado2 = get(local_path='./' + filename, remote_path='/home/' + str(env.user) + '/' + filename)
+			resultado2 = get(local_path=carpeta_de_backups + filename, remote_path='/home/' + str(env.user) + '/' + filename)
 			run('/bin/bash -c -i "rm /home/' + str(env.user) + '/' + filename + '"', shell=False, shell_escape=True, warn_only=True)
 		if resultado1.failed or resultado2.failed:
 			send_alert(traductor[env.host_string][0])
-			pretty_log = open('pretty_log.log', 'a')
 			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
 			print(err_msg)
 			pretty_log.write(err_msg)
 			pretty_log.close()
 		else:
-			pretty_log = open('pretty_log.log', 'a')
 			success_msg = traductor[env.host_string][0] + ' Succeed!\n'
 			print(success_msg)
 			pretty_log.write(success_msg)
@@ -91,13 +93,11 @@ def respaldar_vyos():
 	except:
 		try:
 			send_alert(traductor[env.host_string][0])
-			pretty_log = open('pretty_log.log', 'a')
 			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
 			print(err_msg)
 			pretty_log.write(err_msg)
 			pretty_log.close()
 		except:
-			pretty_log = open('pretty_log.log', 'a')
 			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
 			err_msg += 'No se pudo enviar mail!\n'
 			print(err_msg)
@@ -108,11 +108,16 @@ def respaldar_vyos():
 
 def respaldar_cisco():
 	print('CORRIENDO RESPALDAR_CISCO')
+	ahora = datetime.now()
+	ahora_string = str(ahora.year) + '_' + str(ahora.month) + '_' + str(ahora.day) + '-' + str(ahora.hour) + ':' + str(ahora.minute) + ':' + str(ahora.second)
+
 	diccionario_de_prompts = {
 		'Address or name of remote host []? ': mgmt_ip,
-		'Destination filename [fw-clientes-1-confg]? ': traductor[env.host_string][0],
+		'Destination filename [fw-clientes-1-confg]? ': ahora_string + '_' + traductor[env.host_string][0],
 	}
 
+	# Abro el archivo de logs para loggear el resultado
+	pretty_log = open(archivo_de_logs, 'a')
 	try:
 		with settings(prompts=diccionario_de_prompts, warn_only=True):
 			resultado = run('copy startup-config tftp:', shell=False, shell_escape=True)
@@ -123,7 +128,6 @@ def respaldar_cisco():
 				send_alert(traductor[env.host_string][0])
 			except:
 				err_msg += 'No se pudo enviar el mail!\n'
-			pretty_log = open('pretty_log.log', 'a')
 			print(err_msg)
 			pretty_log.write(err_msg)
 			pretty_log.close()
@@ -136,12 +140,10 @@ def respaldar_cisco():
 					send_alert(traductor[env.host_string][0])
 				except:
 					err_msg += 'No se pudo enviar el mail!\n'
-				pretty_log = open('pretty_log.log', 'a')
 				print(err_msg)
 				pretty_log.write(err_msg)
 				pretty_log.close()
 			except:
-				pretty_log = open('pretty_log.log', 'a')
 				success_msg = traductor[env.host_string][0] + ' Succeed!\n'
 				print(success_msg)
 				pretty_log.write(success_msg)
@@ -152,7 +154,6 @@ def respaldar_cisco():
 				send_alert(traductor[env.host_string][0])
 			except:
 				err_msg += 'No se pudo enviar el mail!\n'
-			pretty_log = open('pretty_log.log', 'a')
 			print(err_msg)
 			pretty_log.write(err_msg)
 			pretty_log.close()
