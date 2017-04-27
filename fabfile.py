@@ -10,7 +10,7 @@ archivo_de_credenciales = open('credenciales', 'r')
 lista_de_ips = []
 lista_de_hostnames = []
 traductor = {}
-mgmt_ip = '172.18.0.33'
+mgmt_ip = '172.18.1.5'
 carpeta_de_backups = '/config-backups/'
 carpeta_de_logs = '/logs-backups/'
 archivo_de_logs = carpeta_de_logs  + 'pretty_log.log'
@@ -51,7 +51,7 @@ for linea in archivo_de_credenciales.readlines():
 env.user = usuario
 env.password = password
 # Seteo el timeout de los comandos remotos en 15 segundos
-env.command_timeout = 15
+env.command_timeout = 60
 
 # Cierro los archivos que abri
 try:
@@ -91,10 +91,12 @@ def respaldar_vyos():
 	pretty_log = open(archivo_de_logs, 'a')
 	try:
 		with settings(warn_only=True):
-			filename = 'config_' + traductor[env.host_string][0] + '_' + ahora_string + '.cfg'			
-			resultado1 = run('/bin/bash -c -i "show configuration commands > ' + filename + '"', shell=False, shell_escape=True, warn_only=True)
-			resultado2 = get(local_path=carpeta_de_backups + filename, remote_path='/home/' + str(env.user) + '/' + filename)
-			run('/bin/bash -c -i "rm /home/' + str(env.user) + '/' + filename + '"', shell=False, shell_escape=True, warn_only=True)
+			filename = 'config_' + traductor[env.host_string][0] + '_' + ahora_string + '.cfg'
+			resultado1 = run('/bin/bash -c -i "configure"', shell=False, shell_escape=True, warn_only=True)			
+			resultado2 = run('/bin/bash -c -i "save tftp://"' + mgmt_ip + '/' + filename, shell=False, shell_escape=True, warn_only=True)
+			#resultado1 = run('/bin/bash -c -i "show configuration commands > ' + filename + '"', shell=False, shell_escape=True, warn_only=True)
+			#resultado2 = get(local_path=carpeta_de_backups + filename, remote_path='/home/' + str(env.user) + '/' + filename)
+			#run('/bin/bash -c -i "rm /home/' + str(env.user) + '/' + filename + '"', shell=False, shell_escape=True, warn_only=True)
 		if resultado1.failed or resultado2.failed:
 			send_alert(traductor[env.host_string][0])
 			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
