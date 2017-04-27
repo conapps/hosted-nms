@@ -10,7 +10,7 @@ archivo_de_credenciales = open('credenciales', 'r')
 lista_de_ips = []
 lista_de_hostnames = []
 traductor = {}
-mgmt_ip = '172.18.1.5'
+mgmt_ip = '172.18.0.33'
 carpeta_de_backups = '/config-backups/'
 carpeta_de_logs = '/logs-backups/'
 archivo_de_logs = carpeta_de_logs  + 'pretty_log.log'
@@ -130,7 +130,7 @@ def respaldar_cisco():
 
 	diccionario_de_prompts = {
 		'Address or name of remote host []? ': mgmt_ip,
-		'Destination filename [fw-clientes-1-confg]? ': filename,
+		'Destination filename [fw-clientes-1-confg]? ': carpeta_de_backups + filename,
 	}
 
 	# Abro el archivo de logs para loggear el resultado
