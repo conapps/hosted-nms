@@ -10,7 +10,7 @@ lista_de_hostnames = []
 traductor = {}
 mgmt_ip = '172.18.0.33'
 carpeta_de_backups = '/config-backups/'
-carpeta_de_logs = '/backup-logs/'
+carpeta_de_logs = '/logs-backups/'
 archivo_de_logs = carpeta_de_logs  + 'pretty_log.log'
 
 # Recorro el archivo de IPs linea por linea eliminando los enters y generando un array con las IPs
