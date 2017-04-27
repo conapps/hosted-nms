@@ -125,11 +125,12 @@ def respaldar_vyos():
 def respaldar_cisco():
 	print('CORRIENDO RESPALDAR_CISCO')
 	ahora = datetime.now()
-	ahora_string = str(ahora.year) + '_' + str(ahora.month) + '_' + str(ahora.day) + '-' + str(ahora.hour) + ':' + str(ahora.minute) + ':' + str(ahora.second)
+	ahora_string = str(ahora.year) + '_' + str(ahora.month) + '_' + str(ahora.day) + '-' + str(ahora.hour) + '_' + str(ahora.minute) + '_' + str(ahora.second)
+	filename = 'config_' + traductor[env.host_string][0] + '_' + ahora_string + '.cfg'
 
 	diccionario_de_prompts = {
 		'Address or name of remote host []? ': mgmt_ip,
-		'Destination filename [fw-clientes-1-confg]? ': ahora_string + '_' + traductor[env.host_string][0],
+		'Destination filename [fw-clientes-1-confg]? ': filename,
 	}
 
 	# Abro el archivo de logs para loggear el resultado
