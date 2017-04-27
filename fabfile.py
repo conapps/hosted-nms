@@ -1,7 +1,9 @@
 import re
-from fabric.api import run, env, local, get, settings
+from fabric.api import run, env, local, get, settings, execute
+from fabric.decorators import hosts, runs_once
 from datetime import datetime
-from utilities import send_alert
+from utilities import send_alert, abrir_log, cerrar_log
+
 
 archivo_de_ips = open('IPs', 'r')
 archivo_de_credenciales = open('credenciales', 'r')
@@ -64,6 +66,20 @@ try:
 except:
 	print('No se pudo cerrar el archivo de credenciales')
 
+@runs_once
+@hosts('localhost')
+def comenzar():
+	abrir_log()
+
+@runs_once
+@hosts('localhost')
+def terminar():
+	cerrar_log()
+
+def start():
+	execute(comenzar)
+def stop():
+	execute(terminar)
 
 # Funcion que copia por scp las configuraciones de los equipos
 def respaldar_vyos():
