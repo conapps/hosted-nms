@@ -3,7 +3,7 @@ import smtplib
 
 # Archivo de logs
 carpeta_de_backups = '/config-backups/'
-carpeta_de_logs = '/backup-logs/'
+carpeta_de_logs = '/logs-backups/'
 archivo_de_logs = carpeta_de_logs  + 'pretty_log.log'
 
 def abrir_log():

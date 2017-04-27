@@ -69,7 +69,7 @@ except:
 def respaldar_vyos():
 	print('CORRIENDO RESPALDAR_VYOS')
 	ahora = datetime.now()
-	ahora_string = str(ahora.year) + '_' + str(ahora.month) + '_' + str(ahora.day) + '-' + str(ahora.hour) + ':' + str(ahora.minute) + ':' + str(ahora.second)
+	ahora_string = str(ahora.year) + '_' + str(ahora.month) + '_' + str(ahora.day) + '-' + str(ahora.hour) + '_' + str(ahora.minute) + '_' + str(ahora.second)
 	print('Respaldando ' + traductor[env.host_string][0])
 	# Abro el archivo de log para loggear el resultado
 	pretty_log = open(archivo_de_logs, 'a')
