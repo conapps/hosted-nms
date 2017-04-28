@@ -127,10 +127,10 @@ def respaldar_cisco():
 	ahora = datetime.now()
 	ahora_string = str(ahora.year) + '_' + str(ahora.month) + '_' + str(ahora.day) + '-' + str(ahora.hour) + '_' + str(ahora.minute) + '_' + str(ahora.second)
 	filename = 'config_' + traductor[env.host_string][0] + '_' + ahora_string + '.cfg'
-
+	carpeta_de_backups_cisco = carpeta_de_backups[1:]
 	diccionario_de_prompts = {
 		'Address or name of remote host []? ': mgmt_ip,
-		'Destination filename [fw-clientes-1-confg]? ': carpeta_de_backups + filename,
+		'Destination filename [fw-clientes-1-confg]? ': carpeta_de_backups_cisco + filename,
 	}
 
 	# Abro el archivo de logs para loggear el resultado
