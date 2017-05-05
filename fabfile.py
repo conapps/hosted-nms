@@ -96,7 +96,7 @@ def respaldar_vyos():
 			#resultado1 = run('/bin/bash -c -i "show configuration commands > ' + filename + '"', shell=False, shell_escape=True, warn_only=True)
 			#resultado2 = get(local_path=carpeta_de_backups + filename, remote_path='/home/' + str(env.user) + '/' + filename)
 			#run('/bin/bash -c -i "rm /home/' + str(env.user) + '/' + filename + '"', shell=False, shell_escape=True, warn_only=True)
-			resultado1 = run('/bin/bash -c -i "show configuration commands"', shell=False, shell_escape=True, warn_only=True)
+			resultado1 = run('/bin/bash -c -i "show configuration commands | no-more"', shell=False, shell_escape=True, warn_only=True)
 		#if resultado1.failed or resultado2.failed:
 		if resultado1.failed:			
 			send_alert(traductor[env.host_string][0])
