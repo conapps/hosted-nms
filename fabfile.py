@@ -51,7 +51,7 @@ for linea in archivo_de_credenciales.readlines():
 env.user = usuario
 env.password = password
 # Seteo el timeout de los comandos remotos en 15 segundos
-env.command_timeout = 15
+env.command_timeout = 10
 
 # Cierro los archivos que abri
 try:
@@ -105,7 +105,9 @@ def respaldar_vyos():
 			pretty_log.write(err_msg)
 			pretty_log.close()
 		else:
-			pretty_log.write(resultado1.stdout)
+			temp_result = open(carpeta_de_backups + filename, 'w')
+			temp_result.write(resultado1.stdout)
+			temp_result.close() 
 			success_msg = traductor[env.host_string][0] + ' Succeed!\n'
 			print(success_msg)
 			pretty_log.write(success_msg)
