@@ -93,16 +93,19 @@ def respaldar_vyos():
 	try:
 		with settings(warn_only=True):
 			filename = 'config_' + traductor[env.host_string][0] + '_' + ahora_string + '.cfg'
-			resultado1 = run('/bin/bash -c -i "show configuration commands > ' + filename + '"', shell=False, shell_escape=True, warn_only=True)
-			resultado2 = get(local_path=carpeta_de_backups + filename, remote_path='/home/' + str(env.user) + '/' + filename)
-			run('/bin/bash -c -i "rm /home/' + str(env.user) + '/' + filename + '"', shell=False, shell_escape=True, warn_only=True)
-		if resultado1.failed or resultado2.failed:
+			#resultado1 = run('/bin/bash -c -i "show configuration commands > ' + filename + '"', shell=False, shell_escape=True, warn_only=True)
+			#resultado2 = get(local_path=carpeta_de_backups + filename, remote_path='/home/' + str(env.user) + '/' + filename)
+			#run('/bin/bash -c -i "rm /home/' + str(env.user) + '/' + filename + '"', shell=False, shell_escape=True, warn_only=True)
+			resultado1 = run('/bin/bash -c -i "show configuration commands"', shell=False, shell_escape=True, warn_only=True)
+		#if resultado1.failed or resultado2.failed:
+		if resultado1.failed:			
 			send_alert(traductor[env.host_string][0])
 			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
 			print(err_msg)
 			pretty_log.write(err_msg)
 			pretty_log.close()
 		else:
+			pretty_log.write(resultado1.stdout)
 			success_msg = traductor[env.host_string][0] + ' Succeed!\n'
 			print(success_msg)
 			pretty_log.write(success_msg)
