@@ -51,7 +51,7 @@ for linea in archivo_de_credenciales.readlines():
 env.user = usuario
 env.password = password
 # Seteo el timeout de los comandos remotos en 15 segundos
-env.command_timeout = 60
+env.command_timeout = 15
 
 # Cierro los archivos que abri
 try:
