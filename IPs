@@ -8,8 +8,8 @@
 192.168.255.21, antel_fw_2_1, vyos
 192.168.255.22, antel_fw_2_2, vyos
 192.168.255.23, antel_fw_2_3, vyos
-192.168.255.23, antel_fw_2_4, cisco
-192.168.255.23, antel_fw_2_5, vyos
+192.168.255.24, antel_fw_2_4, cisco
+192.168.255.25, antel_fw_2_5, vyos
 192.168.255.11, antel_fw_1_1, vyos
 192.168.255.12, antel_fw_1_2, vyos
 192.168.255.13, antel_fw_1_3, vyos
