@@ -133,6 +133,7 @@ def respaldar_cisco():
 	diccionario_de_prompts = {
 		'Address or name of remote host []? ': mgmt_ip,
 		'Destination filename [fw-clientes-1-confg]? ': filename,
+		'Destination filename [fw-clientes-2-confg]? ': filename,
 	}
 
 	# Abro el archivo de logs para loggear el resultado
