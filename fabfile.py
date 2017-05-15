@@ -266,7 +266,7 @@ def respaldar_sbc():
 	with settings(user=usuario_sbc, password=password_sbc, warn_only=True):
 		resultado = get('/opt/siemens/openbranch/var/mngmt/xml/v9.1/*.xml', carpeta_de_backups + subcarpeta_de_sbcs)
 		print(resultado.failed)
-		print(resultado.succeded)
+		print(resultado.succeeded)
 		raw_log.write(resultado)
 		raw_log.close()
 
