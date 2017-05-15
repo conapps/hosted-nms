@@ -262,6 +262,9 @@ def respaldar_sbc():
 	print('Respaldando: ' + traductor[env.host_string][0])
 	raw_log.write('Respaldando: ' + traductor[env.host_string][0])
 	
+	#Genero una subcarpeta por cada SBC
+	subcarpeta_de_sbcs = traductor[env.host_string][0] + '/'
+	
 	# Me conecto y le pido a la OSV que haga el respaldo
 	with settings(user=usuario_sbc, password=password_sbc, warn_only=True):
 		resultado = get('/opt/siemens/openbranch/var/mngmt/xml/v9.1/*.xml', carpeta_de_backups + subcarpeta_de_sbcs)
