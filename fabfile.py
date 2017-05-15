@@ -56,8 +56,8 @@ for linea in archivo_de_ips.readlines():
 		parsed_line = re.search('^\s*(\d+\.\d+.\d+\.\d+),\s*([^\s\n,]+),\s*(cisco|vyos|osv|sbc)',linea)
 		lista_de_ips.append(parsed_line.group(1))
 		hostname = parsed_line.group(2)
-		os = parsed_line.group(3)
-		traductor.update({lista_de_ips[len(lista_de_ips)-1]: (hostname, os)})
+		sis_op = parsed_line.group(3)
+		traductor.update({lista_de_ips[len(lista_de_ips)-1]: (hostname, sis_op)})
 	except:
 		pass
 
@@ -267,7 +267,7 @@ def respaldar_sbc():
 	folder = carpeta_de_backups + subcarpeta_de_sbcs + subcarpeta_individual_de_sbcs
 	if not os.path.exists(folder):
 		os.makedirs(folder)
-	
+
 	# Me conecto y le pido a la OSV que haga el respaldo
 	with settings(user=usuario_sbc, password=password_sbc, warn_only=True):
 		resultado = get('/opt/siemens/openbranch/var/mngmt/xml/v9.1/*.xml', folder)
