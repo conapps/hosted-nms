@@ -274,12 +274,6 @@ def respaldar_sbc():
 	raw_log.write('Respaldando: ' + traductor[env.host_string][0])
 	
 	# Me conecto y le pido a la OSV que haga el respaldo
-	diccionario_de_prompts = {
-		'Address or name of remote host []? ': mgmt_ip,
-		'Destination filename [fw-clientes-1-confg]? ': filename,
-		'Destination filename [fw-clientes-2-confg]? ': filename,
-	}
-
 	with settings(warn_only=True):
 		resultado = get('/opt/siemens/openbranch/var/mngmt/xml/v9.1/*.xml', carpeta_de_backups + subcarpeta_de_sbcs)
 		print(resultado.failed)
