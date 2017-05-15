@@ -14,6 +14,7 @@ mgmt_ip = '172.18.0.33'
 carpeta_de_backups = '/config-backups/'
 subcarpeta_de_fws = 'FWs/'
 subcarpeta_de_sbcs = 'SBCs/'
+subcarpeta_de_osvs = 'OSVs/'
 carpeta_de_logs = '/logs-backups/'
 archivo_de_logs = carpeta_de_logs  + 'pretty_log.log'
 archivo_de_logs_crudos = carpeta_de_logs  + 'log.log'
@@ -236,20 +237,43 @@ def respaldar_osv():
 	pretty_log = open(archivo_de_logs, 'a')
 	raw_log = open(archivo_de_logs_crudos, 'a')
 
-	print('CORRIENDO RESPALDAR_OSV')
-	raw_log.write('CORRIENDO RESPALDAR_OSV')
+	print('CORRIENDO RESPALDAR_SBC')
+	raw_log.write('CORRIENDO RESPALDAR_SBC')
 	print('Respaldando: ' + traductor[env.host_string][0])
 	raw_log.write('Respaldando: ' + traductor[env.host_string][0])
-	
-	# Me conecto y le pido a la OSV que haga el respaldo
-	diccionario_de_prompts = {
-		'Address or name of remote host []? ': mgmt_ip,
-		'Destination filename [fw-clientes-1-confg]? ': filename,
-		'Destination filename [fw-clientes-2-confg]? ': filename,
-	}
 
-	with settings(prompts=diccionario_de_prompts, warn_only=True):
-		resultado = run('export8k -local', shell=False, shell_escape=True)
+	try:
+		with settings(user=usuario_sbc, password=password_sbc, warn_only=True):
+			resultado = run('export8k -local')
+			raw_log.write(resultado)
+			resultado2 = get('/root/software/toolkit/', carpeta_de_backups + subcarpeta_de_osvs)
+		if resultado.failed or not resultado2.succeeded:			
+			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
+			try:
+				send_alert(traductor[env.host_string][0])
+			except:
+				err_msg += 'No se pudo enviar el mail!\n'
+			print(err_msg)
+			pretty_log.write(err_msg)
+			pretty_log.close()
+			raw_log.write(err_msg)
+		else:
+			success_msg = traductor[env.host_string][0] + ' Succeed!\n'
+			print(success_msg)
+			pretty_log.write(success_msg)
+			pretty_log.close()
+			raw_log.write(success_msg)
+	except:		
+		err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
+		try:
+			send_alert(traductor[env.host_string][0])
+		except:
+			err_msg += 'No se pudo enviar el mail!\n'			print(err_msg)
+		pretty_log.write(err_msg)
+		pretty_log.close()
+		raw_log.write(err_msg)
+	raw_log.close()
+
 
 # Funcion que respalda el osv completo.
 def respaldar_sbc():
