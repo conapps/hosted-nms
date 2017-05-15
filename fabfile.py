@@ -116,23 +116,28 @@ def stop():
 
 # Funcion que copia por scp las configuraciones de los equipos
 def respaldar_vyos():
-	print('CORRIENDO RESPALDAR_VYOS')
-	print('Respaldando ' + traductor[env.host_string][0])
 	# Abro los archivos de log para loggear el resultado
 	pretty_log = open(archivo_de_logs, 'a')
 	raw_log = open(archivo_de_logs_crudos, 'a')
+
+	print('CORRIENDO RESPALDAR_VYOS')
+	raw_log.write('CORRIENDO RESPALDAR_VYOS', 'a')
+
+	print('Respaldando ' + traductor[env.host_string][0])
+	raw_log.write('Respaldando: ' + traductor[env.host_string][0], 'a')
+
 	try:
 		with settings(warn_only=True):
 			filename = 'config_' + traductor[env.host_string][0] + '_' + ahora_string + '.cfg'
 			resultado1 = run('/bin/bash -c -i "show configuration commands | no-more"', shell=False, shell_escape=True, warn_only=True)
 			raw_log.write(resultado1)
-			raw_log.close()
 		if resultado1.failed:			
 			send_alert(traductor[env.host_string][0])
 			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
 			print(err_msg)
 			pretty_log.write(err_msg)
 			pretty_log.close()
+			raw_log.write(err_msg)
 		else:
 			temp_result = open(carpeta_de_backups + subcarpeta_de_fws + filename, 'w')
 			temp_result.write(resultado1.stdout)
@@ -141,6 +146,7 @@ def respaldar_vyos():
 			print(success_msg)
 			pretty_log.write(success_msg)
 			pretty_log.close()
+			raw_log.write(success_msg)
 	except:
 		try:
 			send_alert(traductor[env.host_string][0])
@@ -148,34 +154,38 @@ def respaldar_vyos():
 			print(err_msg)
 			pretty_log.write(err_msg)
 			pretty_log.close()
+			raw_log.write(err_msg)
 		except:
 			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
 			err_msg += 'No se pudo enviar mail!\n'
 			print(err_msg)
 			pretty_log.write(err_msg)
 			pretty_log.close()
-
+			raw_log.write(err_msg)
+	raw_log.close()
 
 
 def respaldar_cisco():
+	# Abro el archivo de logs para loggear el resultado
+	pretty_log = open(archivo_de_logs, 'a')
+	raw_log = open(archivo_de_logs_crudos, 'a')
+
 	print('CORRIENDO RESPALDAR_CISCO')
+	raw_log.write('CORRIENDO RESPALDAR_CISCO', 'a')
 
 	filename = 'config_' + traductor[env.host_string][0] + '_' + ahora_string + '.cfg'
-	
+	raw_log.write('Respaldando: ' + traductor[env.host_string][0], 'a')
+
 	diccionario_de_prompts = {
 		'Address or name of remote host []? ': mgmt_ip,
 		'Destination filename [fw-clientes-1-confg]? ': subcarpeta_de_fws + filename,
 		'Destination filename [fw-clientes-2-confg]? ': subcarpeta_de_fws + filename,
 	}
 
-	# Abro el archivo de logs para loggear el resultado
-	pretty_log = open(archivo_de_logs, 'a')
-	raw_log = open(archivo_de_logs_crudos, 'a')
 	try:
 		with settings(prompts=diccionario_de_prompts, warn_only=True):
 			resultado = run('copy startup-config tftp:', shell=False, shell_escape=True)
 			raw_log.write(resultado)
-			raw_log.close()
 		if resultado.failed:
 			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
 			try:
@@ -185,6 +195,7 @@ def respaldar_cisco():
 			print(err_msg)
 			pretty_log.write(err_msg)
 			pretty_log.close()
+			raw_log.write(err_msg)
 		else:
 			try:
 				# En el caso de que la terminal remota no envie los errores a stderr, los busco manualmente
@@ -197,11 +208,13 @@ def respaldar_cisco():
 				print(err_msg)
 				pretty_log.write(err_msg)
 				pretty_log.close()
+				raw_log.write(err_msg)
 			except:
 				success_msg = traductor[env.host_string][0] + ' Succeed!\n'
 				print(success_msg)
 				pretty_log.write(success_msg)
 				pretty_log.close()
+				raw_log.write(success_msg)
 	except:			
 			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
 			try:
@@ -211,6 +224,8 @@ def respaldar_cisco():
 			print(err_msg)
 			pretty_log.write(err_msg)
 			pretty_log.close()
+			raw_log.write(err_msg)
+	raw_log.close()
 
 # Funcion que respalda el osv completo.
 def respaldar_osv():
