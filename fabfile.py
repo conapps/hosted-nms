@@ -15,6 +15,7 @@ carpeta_de_backups = '/config-backups/'
 subcarpeta_de_fws = 'FWs/'
 carpeta_de_logs = '/logs-backups/'
 archivo_de_logs = carpeta_de_logs  + 'pretty_log.log'
+archivo_de_logs_crudos = carpeta_de_logs  + 'log.log'
 
 # Armo un string con la hora de la corrida
 ahora = datetime.now()
@@ -117,12 +118,15 @@ def stop():
 def respaldar_vyos():
 	print('CORRIENDO RESPALDAR_VYOS')
 	print('Respaldando ' + traductor[env.host_string][0])
-	# Abro el archivo de log para loggear el resultado
+	# Abro los archivos de log para loggear el resultado
 	pretty_log = open(archivo_de_logs, 'a')
+	raw_log = open(archivo_de_logs_crudos, 'a')
 	try:
 		with settings(warn_only=True):
 			filename = 'config_' + traductor[env.host_string][0] + '_' + ahora_string + '.cfg'
 			resultado1 = run('/bin/bash -c -i "show configuration commands | no-more"', shell=False, shell_escape=True, warn_only=True)
+			raw_log.write(resultado1)
+			raw_log.close()
 		if resultado1.failed:			
 			send_alert(traductor[env.host_string][0])
 			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
@@ -166,10 +170,12 @@ def respaldar_cisco():
 
 	# Abro el archivo de logs para loggear el resultado
 	pretty_log = open(archivo_de_logs, 'a')
+	raw_log = open(archivo_de_logs_crudos, 'a')
 	try:
 		with settings(prompts=diccionario_de_prompts, warn_only=True):
 			resultado = run('copy startup-config tftp:', shell=False, shell_escape=True)
-
+			raw_log.write(resultado)
+			raw_log.close()
 		if resultado.failed:
 			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
 			try:
