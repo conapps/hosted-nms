@@ -12,6 +12,7 @@ lista_de_hostnames = []
 traductor = {}
 mgmt_ip = '172.18.0.33'
 carpeta_de_backups = '/config-backups/'
+subcarpeta_de_fws = 'FWs/'
 carpeta_de_logs = '/logs-backups/'
 archivo_de_logs = carpeta_de_logs  + 'pretty_log.log'
 
@@ -101,7 +102,7 @@ def respaldar_vyos():
 			pretty_log.write(err_msg)
 			pretty_log.close()
 		else:
-			temp_result = open(carpeta_de_backups + 'FWs/' + filename, 'w')
+			temp_result = open(carpeta_de_backups + subcarpeta_de_fws + filename, 'w')
 			temp_result.write(resultado1.stdout)
 			temp_result.close() 
 			success_msg = traductor[env.host_string][0] + ' Succeed!\n'
@@ -132,8 +133,8 @@ def respaldar_cisco():
 	
 	diccionario_de_prompts = {
 		'Address or name of remote host []? ': mgmt_ip,
-		'Destination filename [fw-clientes-1-confg]? ': filename,
-		'Destination filename [fw-clientes-2-confg]? ': filename,
+		'Destination filename [fw-clientes-1-confg]? ': subcarpeta_de_fws + filename,
+		'Destination filename [fw-clientes-2-confg]? ': subcarpeta_de_fws + filename,
 	}
 
 	# Abro el archivo de logs para loggear el resultado
