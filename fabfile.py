@@ -51,7 +51,7 @@ ahora_string = str(ahora.year) + '_' + mes + '_' + dia + '-' + hora + '_' + minu
 # Recorro el archivo de IPs linea por linea eliminando los enters y generando un array con las IPs
 for linea in archivo_de_ips.readlines():
 	try:
-		parsed_line = re.search('^\s*(\d+\.\d+.\d+\.\d+)\,\s*([^s\n,]+)\,\s*(cisco|vyos|osv|sbc)',linea)
+		parsed_line = re.search('^\s*(\d+\.\d+.\d+\.\d+),\s*([^\s\n,]+),\s*(cisco|vyos|osv|sbc)',linea)
 		lista_de_ips.append(parsed_line.group(1))
 		hostname = parsed_line.group(2)
 		os = parsed_line.group(3)
@@ -88,12 +88,10 @@ env.command_timeout = 10
 # Defino la lista de roles
 env.roledefs = {
     'fw': {
-        'hosts': lista_de_ips,
         'user': usuario,
         'password': password,
     },
     'sbc': {
-        'hosts': lista_de_ips,
         'user': 'root',
         'password': 'T@R63dis',
     }
