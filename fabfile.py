@@ -243,10 +243,10 @@ def respaldar_osv():
 	raw_log.write('Respaldando: ' + traductor[env.host_string][0])
 
 	try:
-		with settings(user=usuario_sbc, password=password_sbc, warn_only=True, timeout=600):
+		with settings(user=usuario_sbc, password=password_sbc, warn_only=True, command_timeout=600):
 			resultado = run('export8k -local')
 			raw_log.write(resultado)
-		with settings(user=usuario_sbc, password=password_sbc, warn_only=True, timeout=300):
+		with settings(user=usuario_sbc, password=password_sbc, warn_only=True, command_timeout=300):
 			resultado2 = get('/root/software/toolkit/', carpeta_de_backups + subcarpeta_de_osvs)
 		if resultado.failed or not resultado2.succeeded:			
 			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
@@ -315,7 +315,6 @@ def respaldar_sbc():
 	raw_log.close()
 
 def respaldar_configuraciones():
-	env.command_timeout = 10
 	if traductor[env.host_string][1] == 'cisco':
 		respaldar_cisco()
 	elif traductor[env.host_string][1] == 'vyos':
@@ -323,7 +322,6 @@ def respaldar_configuraciones():
 	elif traductor[env.host_string][1] == 'osv':
 		respaldar_osv()
 	elif traductor[env.host_string][1] == 'sbc':
-		env.command_timeout = 600
 		respaldar_sbc()
 	else:
 		pass
