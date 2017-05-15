@@ -268,7 +268,8 @@ def respaldar_osv():
 		try:
 			send_alert(traductor[env.host_string][0])
 		except:
-			err_msg += 'No se pudo enviar el mail!\n'			print(err_msg)
+			err_msg += 'No se pudo enviar el mail!\n'			
+		print(err_msg)
 		pretty_log.write(err_msg)
 		pretty_log.close()
 		raw_log.write(err_msg)
