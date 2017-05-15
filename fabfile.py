@@ -121,10 +121,10 @@ def respaldar_vyos():
 	raw_log = open(archivo_de_logs_crudos, 'a')
 
 	print('CORRIENDO RESPALDAR_VYOS')
-	raw_log.write('CORRIENDO RESPALDAR_VYOS', 'a')
+	raw_log.write('CORRIENDO RESPALDAR_VYOS')
 
 	print('Respaldando ' + traductor[env.host_string][0])
-	raw_log.write('Respaldando: ' + traductor[env.host_string][0], 'a')
+	raw_log.write('Respaldando: ' + traductor[env.host_string][0])
 
 	try:
 		with settings(warn_only=True):
@@ -171,10 +171,10 @@ def respaldar_cisco():
 	raw_log = open(archivo_de_logs_crudos, 'a')
 
 	print('CORRIENDO RESPALDAR_CISCO')
-	raw_log.write('CORRIENDO RESPALDAR_CISCO', 'a')
+	raw_log.write('CORRIENDO RESPALDAR_CISCO')
 
 	filename = 'config_' + traductor[env.host_string][0] + '_' + ahora_string + '.cfg'
-	raw_log.write('Respaldando: ' + traductor[env.host_string][0], 'a')
+	raw_log.write('Respaldando: ' + traductor[env.host_string][0])
 
 	diccionario_de_prompts = {
 		'Address or name of remote host []? ': mgmt_ip,
