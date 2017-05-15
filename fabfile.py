@@ -247,7 +247,7 @@ def respaldar_osv():
 			#resultado = run('export8k -local')
 			#raw_log.write(resultado)
 		with settings(user=usuario_sbc, password=password_sbc, warn_only=True, command_timeout=300):
-			resultado2 = get('/software/toolkit', carpeta_de_backups + subcarpeta_de_osvs)
+			resultado2 = get('/software/toolkit/*', carpeta_de_backups + subcarpeta_de_osvs)
 		#if resultado.failed or not resultado2.succeeded:			
 		if not resultado2.succeeded:			
 			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
