@@ -27,7 +27,7 @@ def cerrar_log():
 
 def send_alert(equipo):
 	sender = 'hostedPBX@conatel.com.uy'
-	receivers = ['ialmandos@conatel.com.uy']
+	receivers = ['ialmandos@conatel.com.uy', 'dcetti@conatel.com.uy']
 
 	message = 'From: Alertas de HostedPBX <hostedPBX@contel.com.uy>\nTo: Ismael Almandos <ialmandos@conatel.com.uy>\nSubject: Alerta de falla en el respaldo de configuraciones.\n\nEquipo al que no se le pudo respaldar la configuracion: \n'
 	message += str(equipo)

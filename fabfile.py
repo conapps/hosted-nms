@@ -265,10 +265,22 @@ def respaldar_sbc():
 	# Me conecto y le pido a la OSV que haga el respaldo
 	with settings(user=usuario_sbc, password=password_sbc, warn_only=True):
 		resultado = get('/opt/siemens/openbranch/var/mngmt/xml/v9.1/*.xml', carpeta_de_backups + subcarpeta_de_sbcs)
-		print(resultado.failed)
-		print(resultado.succeeded)
-		raw_log.write(resultado)
-		raw_log.close()
+		if resultado.succeeded:
+			success_msg = traductor[env.host_string][0] + ' Succeed!\n'
+			pretty_log.write(success_msg)
+			pretty_log.close()
+			raw_log.write(success_msg)
+		else:
+			err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
+			try:
+				send_alert(traductor[env.host_string][0])
+			except:
+				err_msg += 'No se pudo enviar el mail!\n'
+			pretty_log.write(err_msg)
+			pretty_log.close()
+			raw_log.write(err_msg)
+			raw_log.write('Los paths remotos que no se pudieron descargar fueron: ' + resultado.failed)
+	raw_log.close()
 
 def respaldar_configuraciones():
 	if traductor[env.host_string][1] == 'cisco':
