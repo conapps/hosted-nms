@@ -16,6 +16,36 @@ subcarpeta_de_fws = 'FWs/'
 carpeta_de_logs = '/logs-backups/'
 archivo_de_logs = carpeta_de_logs  + 'pretty_log.log'
 
+# Armo un string con la hora de la corrida
+ahora = datetime.now()
+if ahora.month < 10:
+	mes = '0' + str(ahora.month)
+else:
+	mes = str(ahora.month)
+
+if ahora.day < 10:
+	dia = '0' + str(ahora.day)
+else:
+	dia = str(ahora.day)
+
+if ahora.hour < 10:
+	hora = '0' + str(ahora.hour)
+else:
+	hora = str(ahora.hour)
+
+if ahora.minute < 10:
+	minutos = '0' + str(ahora.minute)
+else:
+	minutos = str(ahora.minute)
+
+if ahora.second < 10:
+	segundos = '0' + str(ahora.second)
+else:
+	segundos = str(ahora.second)
+
+ahora_string = str(ahora.year) + '_' + mes + '_' + dia + '-' + hora + '_' + minutos + '_' + segundos
+
+
 # Recorro el archivo de IPs linea por linea eliminando los enters y generando un array con las IPs
 for linea in archivo_de_ips.readlines():
 	try:
@@ -86,8 +116,6 @@ def stop():
 # Funcion que copia por scp las configuraciones de los equipos
 def respaldar_vyos():
 	print('CORRIENDO RESPALDAR_VYOS')
-	ahora = datetime.now()
-	ahora_string = str(ahora.year) + '_' + str(ahora.month) + '_' + str(ahora.day) + '-' + str(ahora.hour) + '_' + str(ahora.minute) + '_' + str(ahora.second)
 	print('Respaldando ' + traductor[env.host_string][0])
 	# Abro el archivo de log para loggear el resultado
 	pretty_log = open(archivo_de_logs, 'a')
@@ -127,8 +155,7 @@ def respaldar_vyos():
 
 def respaldar_cisco():
 	print('CORRIENDO RESPALDAR_CISCO')
-	ahora = datetime.now()
-	ahora_string = str(ahora.year) + '_' + str(ahora.month) + '_' + str(ahora.day) + '-' + str(ahora.hour) + '_' + str(ahora.minute) + '_' + str(ahora.second)
+
 	filename = 'config_' + traductor[env.host_string][0] + '_' + ahora_string + '.cfg'
 	
 	diccionario_de_prompts = {
@@ -182,8 +209,6 @@ def respaldar_cisco():
 # Funcion que respalda el osv completo.
 def respaldar_osv():
 	print('CORRIENDO RESPALDAR_OSV')
-	ahora = datetime.now()
-	ahora_string = str(ahora.year) + '_' + str(ahora.month) + '_' + str(ahora.day) + '-' + str(ahora.hour) + '_' + str(ahora.minute) + '_' + str(ahora.second)
 	print('Respaldando ' + traductor[env.host_string][0])
 	# Abro el archivo de log para loggear el resultado
 	pretty_log = open(archivo_de_logs, 'a')

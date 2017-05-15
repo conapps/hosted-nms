@@ -15,3 +15,4 @@
 192.168.255.13, antel_fw_1_3, vyos
 192.168.255.14, antel_fw_1_4, cisco
 192.168.255.15, antel_fw_1_5, vyos
+192.168.255.31, antel_fw_3_1, vyos
