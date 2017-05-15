@@ -17,6 +17,8 @@ subcarpeta_de_sbcs = 'SBCs/'
 carpeta_de_logs = '/logs-backups/'
 archivo_de_logs = carpeta_de_logs  + 'pretty_log.log'
 archivo_de_logs_crudos = carpeta_de_logs  + 'log.log'
+usuario_sbc = 'root'
+password_sbc = 'T@R63dis'
 
 # Armo un string con la hora de la corrida
 ahora = datetime.now()
@@ -85,19 +87,6 @@ env.user = usuario
 env.password = password
 # Seteo el timeout de los comandos remotos en 15 segundos
 env.command_timeout = 10
-# Defino la lista de roles
-env.roledefs = {
-    'fw': {
-        'user': usuario,
-        'password': password,
-    },
-    'sbc': {
-        'user': 'root',
-        'password': 'T@R63dis',
-    }
-}
-
-
 
 # Cierro los archivos que abri
 try:
@@ -274,7 +263,7 @@ def respaldar_sbc():
 	raw_log.write('Respaldando: ' + traductor[env.host_string][0])
 	
 	# Me conecto y le pido a la OSV que haga el respaldo
-	with settings(warn_only=True):
+	with settings(user=usuario_sbc, password=password_sbc, warn_only=True):
 		resultado = get('/opt/siemens/openbranch/var/mngmt/xml/v9.1/*.xml', carpeta_de_backups + subcarpeta_de_sbcs)
 		print(resultado.failed)
 		print(resultado.succeded)
@@ -283,15 +272,12 @@ def respaldar_sbc():
 
 def respaldar_configuraciones():
 	if traductor[env.host_string][1] == 'cisco':
-		env.roles = ['fw']
 		respaldar_cisco()
 	elif traductor[env.host_string][1] == 'vyos':
-		env.roles = ['fw']
 		respaldar_vyos()
 	elif traductor[env.host_string][1] == 'osv':
 		respaldar_osv()
 	elif traductor[env.host_string][1] == 'sbc':
-		env.roles = ['sbc']
 		respaldar_sbc()
 	else:
 		pass
