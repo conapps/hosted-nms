@@ -16,3 +16,4 @@
 192.168.255.14, antel_fw_1_4, cisco
 192.168.255.15, antel_fw_1_5, vyos
 192.168.255.31, conatel_fw_3_1, vyos
+192.168.2.104, ante_sbc_Internet_1, sbc

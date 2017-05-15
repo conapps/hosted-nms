@@ -13,6 +13,7 @@ traductor = {}
 mgmt_ip = '172.18.0.33'
 carpeta_de_backups = '/config-backups/'
 subcarpeta_de_fws = 'FWs/'
+subcarpeta_de_sbcs = 'SBCs/'
 carpeta_de_logs = '/logs-backups/'
 archivo_de_logs = carpeta_de_logs  + 'pretty_log.log'
 archivo_de_logs_crudos = carpeta_de_logs  + 'log.log'
@@ -84,6 +85,21 @@ env.user = usuario
 env.password = password
 # Seteo el timeout de los comandos remotos en 15 segundos
 env.command_timeout = 10
+# Defino la lista de roles
+env.roledefs = {
+    'fw': {
+        'hosts': lista_de_ips,
+        'user': usuario,
+        'password': password,
+    },
+    'sbc': {
+        'hosts': lista_de_ips,
+        'user': 'root',
+        'password': 'T@R63dis',
+    }
+}
+
+
 
 # Cierro los archivos que abri
 try:
@@ -229,10 +245,14 @@ def respaldar_cisco():
 
 # Funcion que respalda el osv completo.
 def respaldar_osv():
-	print('CORRIENDO RESPALDAR_OSV')
-	print('Respaldando ' + traductor[env.host_string][0])
-	# Abro el archivo de log para loggear el resultado
+	# Abro el archivo de logs para loggear el resultado
 	pretty_log = open(archivo_de_logs, 'a')
+	raw_log = open(archivo_de_logs_crudos, 'a')
+
+	print('CORRIENDO RESPALDAR_OSV')
+	raw_log.write('CORRIENDO RESPALDAR_OSV')
+	print('Respaldando: ' + traductor[env.host_string][0])
+	raw_log.write('Respaldando: ' + traductor[env.host_string][0])
 	
 	# Me conecto y le pido a la OSV que haga el respaldo
 	diccionario_de_prompts = {
@@ -244,16 +264,42 @@ def respaldar_osv():
 	with settings(prompts=diccionario_de_prompts, warn_only=True):
 		resultado = run('export8k -local', shell=False, shell_escape=True)
 
+# Funcion que respalda el osv completo.
+def respaldar_sbc():
+	# Abro el archivo de logs para loggear el resultado
+	pretty_log = open(archivo_de_logs, 'a')
+	raw_log = open(archivo_de_logs_crudos, 'a')
 
+	print('CORRIENDO RESPALDAR_SBC')
+	raw_log.write('CORRIENDO RESPALDAR_SBC')
+	print('Respaldando: ' + traductor[env.host_string][0])
+	raw_log.write('Respaldando: ' + traductor[env.host_string][0])
+	
+	# Me conecto y le pido a la OSV que haga el respaldo
+	diccionario_de_prompts = {
+		'Address or name of remote host []? ': mgmt_ip,
+		'Destination filename [fw-clientes-1-confg]? ': filename,
+		'Destination filename [fw-clientes-2-confg]? ': filename,
+	}
+
+	with settings(warn_only=True):
+		resultado = get('/opt/siemens/openbranch/var/mngmt/xml/v9.1/*.xml', carpeta_de_backups + subcarpeta_de_sbcs)
+		print(resultado.failed)
+		print(resultado.succeded)
+		raw_log.write(resultado)
+		raw_log.close()
 
 def respaldar_configuraciones():
 	if traductor[env.host_string][1] == 'cisco':
+		env.roles = ['fw']
 		respaldar_cisco()
 	elif traductor[env.host_string][1] == 'vyos':
+		env.roles = ['fw']
 		respaldar_vyos()
 	elif traductor[env.host_string][1] == 'osv':
 		respaldar_osv()
 	elif traductor[env.host_string][1] == 'sbc':
+		env.roles = ['sbc']
 		respaldar_sbc()
 	else:
 		pass
