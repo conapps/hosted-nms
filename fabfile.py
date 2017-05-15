@@ -195,7 +195,7 @@ def respaldar_osv():
 	}
 
 	with settings(prompts=diccionario_de_prompts, warn_only=True):
-	resultado = run('export8k -local', shell=False, shell_escape=True)
+		resultado = run('export8k -local', shell=False, shell_escape=True)
 
 
 
