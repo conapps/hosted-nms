@@ -1,4 +1,4 @@
-import re
+import re, os
 from fabric.api import run, env, local, get, settings, execute
 from fabric.decorators import hosts, runs_once
 from datetime import datetime
@@ -264,10 +264,13 @@ def respaldar_sbc():
 	
 	#Genero una subcarpeta por cada SBC
 	subcarpeta_individual_de_sbcs = traductor[env.host_string][0] + '/'
-
+	folder = carpeta_de_backups + subcarpeta_de_sbcs + subcarpeta_individual_de_sbcs
+	if not os.path.exists(folder):
+		os.makedirs(folder)
+	
 	# Me conecto y le pido a la OSV que haga el respaldo
 	with settings(user=usuario_sbc, password=password_sbc, warn_only=True):
-		resultado = get('/opt/siemens/openbranch/var/mngmt/xml/v9.1/*.xml', carpeta_de_backups + subcarpeta_de_sbcs + subcarpeta_individual_de_sbcs)
+		resultado = get('/opt/siemens/openbranch/var/mngmt/xml/v9.1/*.xml', folder)
 		if resultado.succeeded:
 			success_msg = traductor[env.host_string][0] + ' Succeed!\n'
 			pretty_log.write(success_msg)
