@@ -18,7 +18,7 @@ archivo_de_logs = carpeta_de_logs  + 'pretty_log.log'
 # Recorro el archivo de IPs linea por linea eliminando los enters y generando un array con las IPs
 for linea in archivo_de_ips.readlines():
 	try:
-		parsed_line = re.search('^\s*(\d+\.\d+.\d+\.\d+)\,\s*([^s\n,]+)\,\s*(cisco|vyos)',linea)
+		parsed_line = re.search('^\s*(\d+\.\d+.\d+\.\d+)\,\s*([^s\n,]+)\,\s*(cisco|vyos|osv|sbc)',linea)
 		lista_de_ips.append(parsed_line.group(1))
 		hostname = parsed_line.group(2)
 		os = parsed_line.group(3)
@@ -101,7 +101,7 @@ def respaldar_vyos():
 			pretty_log.write(err_msg)
 			pretty_log.close()
 		else:
-			temp_result = open(carpeta_de_backups + filename, 'w')
+			temp_result = open(carpeta_de_backups + 'FWs/' + filename, 'w')
 			temp_result.write(resultado1.stdout)
 			temp_result.close() 
 			success_msg = traductor[env.host_string][0] + ' Succeed!\n'
@@ -178,12 +178,36 @@ def respaldar_cisco():
 			pretty_log.write(err_msg)
 			pretty_log.close()
 
+# Funcion que respalda el osv completo.
+def respaldar_osv():
+	print('CORRIENDO RESPALDAR_OSV')
+	ahora = datetime.now()
+	ahora_string = str(ahora.year) + '_' + str(ahora.month) + '_' + str(ahora.day) + '-' + str(ahora.hour) + '_' + str(ahora.minute) + '_' + str(ahora.second)
+	print('Respaldando ' + traductor[env.host_string][0])
+	# Abro el archivo de log para loggear el resultado
+	pretty_log = open(archivo_de_logs, 'a')
+	
+	# Me conecto y le pido a la OSV que haga el respaldo
+	diccionario_de_prompts = {
+		'Address or name of remote host []? ': mgmt_ip,
+		'Destination filename [fw-clientes-1-confg]? ': filename,
+		'Destination filename [fw-clientes-2-confg]? ': filename,
+	}
+
+	with settings(prompts=diccionario_de_prompts, warn_only=True):
+	resultado = run('export8k -local', shell=False, shell_escape=True)
+
+
 
 def respaldar_configuraciones():
 	if traductor[env.host_string][1] == 'cisco':
 		respaldar_cisco()
 	elif traductor[env.host_string][1] == 'vyos':
 		respaldar_vyos()
+	elif traductor[env.host_string][1] == 'osv':
+		respaldar_osv()
+	elif traductor[env.host_string][1] == 'sbc':
+		respaldar_sbc()
 	else:
 		pass
 
