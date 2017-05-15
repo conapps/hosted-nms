@@ -315,6 +315,7 @@ def respaldar_sbc():
 	raw_log.close()
 
 def respaldar_configuraciones():
+	env.command_timeout = 10
 	if traductor[env.host_string][1] == 'cisco':
 		respaldar_cisco()
 	elif traductor[env.host_string][1] == 'vyos':
@@ -322,6 +323,7 @@ def respaldar_configuraciones():
 	elif traductor[env.host_string][1] == 'osv':
 		respaldar_osv()
 	elif traductor[env.host_string][1] == 'sbc':
+		env.command_timeout = 600
 		respaldar_sbc()
 	else:
 		pass
