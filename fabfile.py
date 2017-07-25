@@ -164,8 +164,8 @@ def respaldar_cisco():
         # Consigo el hostname del dispositivo
         with settings(warn_only=True):
             resultado = run('show running | inc hostname', shell=False, shell_escape=True)
-            print('El hostname del equipo es:', resultado)
             nombre_de_host = re.search('^hostname (\w+)', resultado).group(1)
+            print('El hostname del equipo es:', resultado)
 
             diccionario_de_prompts = {
                 'Address or name of remote host []? ': mgmt_ip,
