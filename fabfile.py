@@ -159,13 +159,19 @@ def respaldar_cisco():
     filename = 'config_' + traductor[env.host_string][0] + '_' + ahora_string + '.cfg'
     raw_log.write('Respaldando: ' + traductor[env.host_string][0] + '\n')
 
-    diccionario_de_prompts = {
-        'Address or name of remote host []? ': mgmt_ip,
-        'Destination filename [fw-clientes-1-confg]? ': subcarpeta_de_fws + filename,
-        'Destination filename [fw-clientes-2-confg]? ': subcarpeta_de_fws + filename,
-    }
 
     try:
+        # Consigo el hostname del dispositivo
+        with settings(warn_only=True):
+            resultado = run('show running | inc hostname', shell=False, shell_escape=True)
+            print('El hostname del equipo es:',resultado)
+            nombre_de_host = re.search('^hostname (\w+)', resultado)
+
+            diccionario_de_prompts = {
+                'Address or name of remote host []? ': mgmt_ip,
+                'Destination filename [' + nombre_de_host + '-confg]? ': subcarpeta_de_fws + filename,
+            }
+
         with settings(prompts=diccionario_de_prompts, warn_only=True):
             resultado = run('copy startup-config tftp:', shell=False, shell_escape=True)
             raw_log.write(resultado)
