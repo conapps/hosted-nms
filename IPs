@@ -5,21 +5,21 @@
 #################################################################################################
 
 
-192.168.255.21, antel_fw_2_1, vyos
-192.168.255.22, antel_fw_2_2, vyos
-192.168.255.23, antel_fw_2_3, vyos
+#192.168.255.21, antel_fw_2_1, vyos
+#192.168.255.22, antel_fw_2_2, vyos
+#192.168.255.23, antel_fw_2_3, vyos
 192.168.255.24, antel_fw_2_4, cisco
-192.168.255.25, antel_fw_2_5, vyos
-192.168.255.11, antel_fw_1_1, vyos
-192.168.255.12, antel_fw_1_2, vyos
-192.168.255.13, antel_fw_1_3, vyos
+#192.168.255.25, antel_fw_2_5, vyos
+#192.168.255.11, antel_fw_1_1, vyos
+#192.168.255.12, antel_fw_1_2, vyos
+#192.168.255.13, antel_fw_1_3, vyos
 192.168.255.14, antel_fw_1_4, cisco
-192.168.255.15, antel_fw_1_5, vyos
-192.168.255.31, conatel_fw_3_1, vyos
-192.168.2.103, antel_sbc_Clientes_1, sbc
-192.168.2.104, antel_sbc_Internet_1, sbc
-192.168.2.105, antel_sbc_NGN_1, sbc
-192.168.22.103, antel_sbc_Clientes_2, sbc
-192.168.22.104, antel_sbc_Internet_2, sbc
-192.168.22.105, antel_sbc_NGN_2, sbc
-172.16.0.6, antel_osv_1, osv
+#192.168.255.15, antel_fw_1_5, vyos
+#192.168.255.31, conatel_fw_3_1, vyos
+#192.168.2.103, antel_sbc_Clientes_1, sbc
+#192.168.2.104, antel_sbc_Internet_1, sbc
+#192.168.2.105, antel_sbc_NGN_1, sbc
+#192.168.22.103, antel_sbc_Clientes_2, sbc
+#192.168.22.104, antel_sbc_Internet_2, sbc
+#192.168.22.105, antel_sbc_NGN_2, sbc
+#172.16.0.6, antel_osv_1, osv
