@@ -1,0 +1,9 @@
+dock-Creo la imagen aws-image a partir de un Dockerfile
+$docker build -t aws-image .
+
+-Creo un contenedor a partir de la imagen aws-image y monto el directorio local /home/miriarte/Documents/docker/data
+en el directorio del contenedor /data
+ho$docker run -it --rm -v /media/sf_OneDrive/Personal/Proyectos\ 2017/Consultoría/HostedPBX/Docker/cloud-pbx/data
+:/data aws-image
+
+
