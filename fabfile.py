@@ -59,7 +59,7 @@ for linea in archivo_de_credenciales.readlines():
 # Seteo las variables de entorno para usuario y password
 env.user = usuario
 env.password = password
-# Seteo el timeout de los comandos remotos en 15 segundos
+# Seteo el timeout de los comandos remotos en 10 segundos
 env.command_timeout = 10
 
 # Cierro los archivos que abri
