@@ -9,7 +9,7 @@ path_unify = path_configs + "Unify/"
 path_cloud = "backups"
 
 try:
-    upload_dir_content(path_fws, path_cloud + "/FWs/", False)
+    upload_dir_content(path_fws, path_cloud + "/FWs/", True)
 except Exception as e:
     print("ERROR! uploading folder: " + path_fws + "\n")
     print("Details of error: ", e)
