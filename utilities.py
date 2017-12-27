@@ -44,3 +44,17 @@ def send_alert(equipo):
         print("Successfully sent email")
     except SMTPException:
         print("Error: unable to send email")
+
+
+def send_mail(subject, body):
+    sender = 'hostedPBX@conatel.com.uy'
+    receivers = ['unifyteam@conatel.com.uy']
+
+    message = 'From: Alertas de HostedPBX <hostedPBX@contel.com.uy>\nTo: Ismael Almandos <ialmandos@conatel.com.uy>\nSubject: ' + subject + '.\n\n ' + body + ' \n'
+
+    try:
+        smtpObj = smtplib.SMTP('conatel-com-uy.mail.protection.outlook.com', '25')
+        smtpObj.sendmail(sender, receivers, message)
+        print("Successfully sent email")
+    except SMTPException:
+        print("Error: unable to send email")

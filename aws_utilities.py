@@ -57,14 +57,12 @@ def upload_dir_content(local_directory, cloud_directory, delete=False):
         if item.is_dir():
             upload_dir_content(local_directory + item.name + "/", cloud_directory + item.name + "/")
             if delete:
-                try:
-                    print("Deleting folder..." + item.name)
-                    os.rmdir(item.path)
-                except Exception as e:
-                    print("ERROR! deleting folder: " + item.path + "\n")
-                    print("Details of error: ", e)
+                print("Deleting folder..." + item.name)
+                os.rmdir(item.path)
         else:
-            upload_file(local_directory + item.name, cloud_directory + item.name, delete)
+            success = upload_file(local_directory + item.name, cloud_directory + item.name, delete)
+            if not success:
+                raise Exception("Failed to upload file: " + item.name)
 
 
 if __name__ == "__main__":
