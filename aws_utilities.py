@@ -1,63 +1,68 @@
-'''
-Script for upload folders and files to Amazon S3 service
-'''
+"""
+Script to upload files and folders to Amazon S3 service
+"""
 
-# import SDK boto3
+# import boto3 SDK
 import boto3
-# importo modulo de sistema para manipular directorios y archivos del S.O
-# import system module to handle directories and files
+# import system module to handle local folders and files
 import os
-# importo sys, nos da acceso a variables del sistema
+# import sys module to use some variables used by the interpreter
 import sys
+# import exceptions to handle connectivity and AWS S3 authentication errors
 from botocore.exceptions import EndpointConnectionError, ClientError
 
 s3 = boto3.client('s3')
-# defino bucket de S3 a utilizar
+# define the name of the AWS S3 bucket to use
 bucket = 'conapps-cloud-pbx'
-# defino directorio por defecto a subir
-path_files = '/data/files/'
-
-
-# Funcion para subir un objeto a s3 llamado file_name en la carpeta target_name
 
 
 def upload_file(file_name, target_name, delete=False):
-    print("Subiendo... " + target_name)
+    """
+    Function to upload an object called file_name within target_name folder in AWS S3. If delete parameter
+    is true, it also remove file_name from source.
+    :param file_name: Name of the file to upload/delete
+    :param target_name: Full path where the file will be upload into the bucket
+    :param delete: This function will also delete file_name from local disk if: the upload was successfully and delete=True
+    :return: Return true/false boolean if the operation was successfully
+    """
+    print("Uploading file... " + target_name)
     try:
         with open(file_name, "rb") as f:
             s3.upload_fileobj(f, bucket, target_name)
             if not delete:
                 return True
     except Exception as e:
-        print("Hubo un error al subir el archivo: " + file_name + "\n")
-        print("El error fue: ", e)
+        print("ERROR! uploading file: " + file_name + "\n")
+        print("Details of error: ", e)
         return False
     try:
-        print("Borrando... " + file_name)
+        print("Deleting file... " + file_name)
         os.remove(file_name)
         return True
     except Exception as e:
-        print("Hubo un error al borrar el archivo: " + file_name + "\n")
-        print("El error fue: ", e)
+        print("ERROR! deleting file: " + file_name + "\n")
+        print("Details of error: ", e)
         return False
 
 
 def upload_dir_content(local_directory, cloud_directory, delete=False):
     """
-    Función recursiva que dado un path (por defecto /data/files/) recorre la estructura de capretas del disco local
-    local_directory y va
-armando y subiendo dicha estructura de directorios y archivos en el bucket definido anteriormente en la carpeta
-definida en cloud_directory
-    :param file_name:
-    :param target_name:
-    :return:
+    Function that go through local file system and upload files and folders into AWS S3
+    :param local_directory: local directory of the file system
+    :param cloud_directory: remote directory of the AWS S3 where the file/folder will be created
+    :param delete: This function will also delete the folder from local disk if delete flag is True
+    :return: void
     """
     for item in os.scandir(path=local_directory):
         if item.is_dir():
             upload_dir_content(local_directory + item.name + "/", cloud_directory + item.name + "/")
             if delete:
-                print("Borrando directorio... " + item.name)
-                os.rmdir(item.path)
+                try:
+                    print("Deleting folder..." + item.name)
+                    os.rmdir(item.path)
+                except Exception as e:
+                    print("ERROR! deleting folder: " + item.path + "\n")
+                    print("Details of error: ", e)
         else:
             upload_file(local_directory + item.name, cloud_directory + item.name, delete)
 
@@ -67,20 +72,12 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         folder = sys.argv[1]
     finish = False
-    response = input("Estas seguro que desea subir el directorio: " + folder + " (y or n): ")
+    response = input("Are you sure do you want to upload: " + folder + " and all its contents to S3? (y or n): ")
     while not finish:
         if response.lower() == "n":
             exit()
         elif response.lower() == "y":
             finish = True
         else:
-            response = input("Ingrese y or n:")
+            response = input("Don't play with me! (y or n)")
     upload_dir_content(folder, '')
-
-
-
-
-
-
-
-
