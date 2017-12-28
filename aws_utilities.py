@@ -26,23 +26,11 @@ def upload_file(file_name, target_name, delete=False):
     :return: Return true/false boolean if the operation was successfully
     """
     print("Uploading file... " + target_name)
-    try:
-        with open(file_name, "rb") as f:
-            s3.upload_fileobj(f, bucket, target_name)
-            if not delete:
-                return True
-    except Exception as e:
-        print("ERROR! uploading file: " + file_name + "\n")
-        print("Details of error: ", e)
-        return False
-    try:
-        print("Deleting file... " + file_name)
-        os.remove(file_name)
-        return True
-    except Exception as e:
-        print("ERROR! deleting file: " + file_name + "\n")
-        print("Details of error: ", e)
-        return False
+    with open(file_name, "rb") as f:
+        s3.upload_fileobj(f, bucket, target_name)
+        if delete:
+            print("Deleting file... " + file_name)
+            os.remove(file_name)
 
 
 def upload_dir_content(local_directory, cloud_directory, delete=False):
@@ -60,9 +48,7 @@ def upload_dir_content(local_directory, cloud_directory, delete=False):
                 print("Deleting folder..." + item.name)
                 os.rmdir(item.path)
         else:
-            success = upload_file(local_directory + item.name, cloud_directory + item.name, delete)
-            if not success:
-                raise Exception("Failed to upload file: " + item.name)
+            upload_file(local_directory + item.name, cloud_directory + item.name, delete)
 
 
 if __name__ == "__main__":
