@@ -2,38 +2,18 @@ from aws_utilities import upload_dir_content
 from utilities import send_mail
 
 path_configs = "/configs/"
-path_fws = path_configs + "FWs/"
-path_osvs = path_configs + "OSVs/"
-path_sbcs = path_configs + "SBCs/"
-path_unify = path_configs + "Unify/"
 path_cloud = "backups"
 
 try:
-    upload_dir_content(path_fws, path_cloud + "/FWs/", True)
+    folder = "/FWs/"
+    upload_dir_content(path_configs + folder, path_cloud + folder, True)
+    folder = "/OSVs/"
+    upload_dir_content(path_configs + folder, path_cloud + folder, False)
+    folder = "/SBCs/"
+    upload_dir_content(path_configs + folder, path_cloud + folder, False)
+    #folder = "/Unify/"
+    #upload_dir_content(path_configs + folder, path_cloud + folder, False)
 except Exception as e:
-    print("ERROR! uploading folder: " + path_fws + "\n")
+    print("ERROR! uploading folder: " + folder + "\n")
     print("Details of error: ", e)
     send_mail("ERROR uploading folder to S3", str(e))
-
-try:
-    upload_dir_content(path_osvs, path_cloud + "/OSVs/", False)
-except Exception as e:
-    print("ERROR! uploading folder: " + path_osvs + "\n")
-    print("Details of error: ", e)
-    send_mail("ERROR uploading folder to S3", str(e))
-
-try:
-    upload_dir_content(path_sbcs, path_cloud + "/SBCs/", False)
-except Exception as e:
-    print("ERROR! uploading folder: " + path_sbcs + "\n")
-    print("Details of error: ", e)
-    send_mail("ERROR uploading folder to S3", str(e))
-
-"""
-try:
-    upload_dir_content(path_unify, path_cloud + "/Unify/", False)
-except Exception as e:
-    print("ERROR! uploading folder: " + path_unify + "\n")
-    print("Details of error: ", e)
-    send_mail("ERROR uploading folder to S3", e)
-"""
