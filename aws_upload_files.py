@@ -13,21 +13,21 @@ try:
 except Exception as e:
     print("ERROR! uploading folder: " + path_fws + "\n")
     print("Details of error: ", e)
-    send_mail("ERROR uploading folder to S3", e)
+    send_mail("ERROR uploading folder to S3", str(e))
 
 try:
     upload_dir_content(path_osvs, path_cloud + "/OSVs/", False)
 except Exception as e:
     print("ERROR! uploading folder: " + path_osvs + "\n")
     print("Details of error: ", e)
-    send_mail("ERROR uploading folder to S3", e)
+    send_mail("ERROR uploading folder to S3", str(e))
 
 try:
     upload_dir_content(path_sbcs, path_cloud + "/SBCs/", False)
 except Exception as e:
     print("ERROR! uploading folder: " + path_sbcs + "\n")
     print("Details of error: ", e)
-    send_mail("ERROR uploading folder to S3", e)
+    send_mail("ERROR uploading folder to S3", str(e))
 
 """
 try:
