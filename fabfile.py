@@ -20,7 +20,7 @@ archivo_de_logs = carpeta_de_logs + 'pretty_log.log'
 archivo_de_logs_crudos = carpeta_de_logs + 'log.log'
 usuario_sbc = 'root'
 password_sbc = 'T@R63dis'
-usuario_sbc_posta = 'Administrator'
+usuario_sbc_posta = 'administrator'
 password_sbc_posta = 'Asd123!.'
 
 # Armo un string con la hora de la corrida
@@ -308,7 +308,7 @@ def respaldar_configuraciones():
     elif traductor[env.host_string][1] == 'vyos':
         respaldar_vyos()
     elif traductor[env.host_string][1] == 'osv':
-        respaldar_osv()
+        #respaldar_osv()
     elif traductor[env.host_string][1] == 'sbc':
         respaldar_sbc()
     else:
