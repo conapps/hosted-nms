@@ -20,6 +20,8 @@ archivo_de_logs = carpeta_de_logs + 'pretty_log.log'
 archivo_de_logs_crudos = carpeta_de_logs + 'log.log'
 usuario_sbc = 'root'
 password_sbc = 'T@R63dis'
+usuario_sbc_posta = 'Administrator'
+password_sbc_posta = 'Asd123!.'
 
 # Armo un string con la hora de la corrida
 ahora_string = datetime.now().strftime('%Y-%m-%d__%H-%M-%S')
@@ -228,7 +230,7 @@ def respaldar_osv():
     raw_log.write('Respaldando: ' + traductor[env.host_string][0])
 
     try:
-        with settings(user='Administrator', password='Asd123!.', warn_only=True, command_timeout=600):
+        with settings(user=usuario_sbc, password=password_sbc, warn_only=True, command_timeout=600):
             resultado = run('export8k -local')
             raw_log.write(resultado)
         with settings(user=usuario_sbc, password=password_sbc, warn_only=True, command_timeout=300):
@@ -280,7 +282,7 @@ def respaldar_sbc():
         os.makedirs(folder)
 
     # Me conecto y le pido a la OSV que haga el respaldo
-    with settings(user=usuario_sbc, password=password_sbc, warn_only=True):
+    with settings(user=usuario_sbc_posta, password=password_sbc_posta, warn_only=True):
         resultado = get('/opt/siemens/openbranch/var/mngmt/xml/v9.1/*.xml', folder)
         if resultado.succeeded:
             success_msg = traductor[env.host_string][0] + ' Succeed!\n'
