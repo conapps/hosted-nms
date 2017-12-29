@@ -20,6 +20,8 @@ archivo_de_logs = carpeta_de_logs + 'pretty_log.log'
 archivo_de_logs_crudos = carpeta_de_logs + 'log.log'
 #usuario_sbc = 'root'
 #password_sbc = 'T@R63dis'
+usuario_osv = 'root'
+password_osv = 'T@R63dis'
 usuario_sbc = 'administrator'
 password_sbc = 'Asd123!.'
 sbc_backup_path = '/opt/siemens/openbranch/var/mngmt/xml/v9.2/*.xml'
@@ -230,10 +232,10 @@ def respaldar_osv():
     raw_log.write('Respaldando: ' + traductor[env.host_string][0])
 
     try:
-        with settings(user=usuario_sbc, password=password_sbc, warn_only=True, command_timeout=600):
+        with settings(user=usuario_osv, password=password_osv, warn_only=True, command_timeout=600):
             resultado = run('export8k -local')
             raw_log.write(resultado)
-        with settings(user=usuario_sbc, password=password_sbc, warn_only=True, command_timeout=300):
+        with settings(user=usuario_osv, password=password_osv, warn_only=True, command_timeout=300):
             resultado2 = get('/software/toolkit/*', carpeta_de_backups + subcarpeta_de_osvs)
         if resultado.failed or not resultado2.succeeded:
             err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
