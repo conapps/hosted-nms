@@ -309,10 +309,13 @@ def respaldar_sbc():
 def respaldar_configuraciones():
     if traductor[env.host_string][1] == 'cisco':
         #respaldar_cisco()
+        pass
     elif traductor[env.host_string][1] == 'vyos':
         #respaldar_vyos()
+        pass
     elif traductor[env.host_string][1] == 'osv':
         #respaldar_osv()
+        pass
     elif traductor[env.host_string][1] == 'sbc':
         respaldar_sbc()
     else:
