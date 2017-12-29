@@ -222,13 +222,13 @@ def respaldar_osv():
     pretty_log = open(archivo_de_logs, 'a')
     raw_log = open(archivo_de_logs_crudos, 'a')
 
-    print('CORRIENDO RESPALDAR_SBC')
-    raw_log.write('CORRIENDO RESPALDAR_SBC')
+    print('CORRIENDO RESPALDAR_SBC ')
+    raw_log.write('CORRIENDO RESPALDAR_SBC ')
     print('Respaldando: ' + traductor[env.host_string][0])
     raw_log.write('Respaldando: ' + traductor[env.host_string][0])
 
     try:
-        with settings(user=usuario_sbc, password=password_sbc, warn_only=True, command_timeout=600):
+        with settings(user='Administrator', password='Asd123!.', warn_only=True, command_timeout=600):
             resultado = run('export8k -local')
             raw_log.write(resultado)
         with settings(user=usuario_sbc, password=password_sbc, warn_only=True, command_timeout=300):
