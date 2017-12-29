@@ -273,9 +273,6 @@ def respaldar_sbc():
     print('CORRIENDO RESPALDAR_SBC')
     raw_log.write('CORRIENDO RESPALDAR_SBC')
 
-    print('usuario sbc: ', usuario_sbc)
-    print('pass sbc: ', password_sbc)
-
     print('Respaldando: ' + traductor[env.host_string][0])
     raw_log.write('Respaldando: ' + traductor[env.host_string][0])
 
@@ -315,18 +312,13 @@ def respaldar_sbc():
 
 def respaldar_configuraciones():
     if traductor[env.host_string][1] == 'cisco':
-        #respaldar_cisco()
-        pass
+        respaldar_cisco()
     elif traductor[env.host_string][1] == 'vyos':
-        #respaldar_vyos()
-        pass
+        respaldar_vyos()
     elif traductor[env.host_string][1] == 'osv':
-        #respaldar_osv()
-        pass
+        respaldar_osv()
     elif traductor[env.host_string][1] == 'sbc':
         respaldar_sbc()
-    else:
-        pass
 
 
         # Funcion que se conecta a los equipos y respalda las configuraciones en el servidor tftp
