@@ -3,7 +3,7 @@ import os
 from fabric.api import run, env, local, get, settings, execute
 from fabric.decorators import hosts, runs_once
 from datetime import datetime
-from utilities import send_alert, abrir_log, cerrar_log
+from utilities import send_alert, abrir_log, cerrar_log, send_mail
 
 archivo_de_ips = open('IPs', 'r')
 archivo_de_credenciales = open('credenciales', 'r')
@@ -20,9 +20,9 @@ archivo_de_logs = carpeta_de_logs + 'pretty_log.log'
 archivo_de_logs_crudos = carpeta_de_logs + 'log.log'
 usuario_sbc = 'root'
 password_sbc = 'T@R63dis'
-usuario_sbc_posta = 'administrator'
-password_sbc_posta = 'Asd123!.'
-
+#usuario_sbc = 'administrator'
+#password_sbc = 'Asd123!.'
+sbc_backup_path = '/opt/siemens/openbranch/var/mngmt/xml/v9.2/*.xml'
 # Armo un string con la hora de la corrida
 ahora_string = datetime.now().strftime('%Y-%m-%d__%H-%M-%S')
 
@@ -273,8 +273,8 @@ def respaldar_sbc():
     print('CORRIENDO RESPALDAR_SBC')
     raw_log.write('CORRIENDO RESPALDAR_SBC')
 
-    print('usuario sbc: ', usuario_sbc_posta)
-    print('pass sbc: ', password_sbc_posta)
+    print('usuario sbc: ', usuario_sbc)
+    print('pass sbc: ', password_sbc)
 
     print('Respaldando: ' + traductor[env.host_string][0])
     raw_log.write('Respaldando: ' + traductor[env.host_string][0])
@@ -286,17 +286,24 @@ def respaldar_sbc():
         os.makedirs(folder)
 
     # Me conecto y le pido a la OSV que haga el respaldo
-    with settings(user=usuario_sbc_posta, password=password_sbc_posta, warn_only=True):
-        resultado = get('/opt/siemens/openbranch/var/mngmt/xml/v9.1/*.xml', folder)
-        if resultado.succeeded:
-            success_msg = traductor[env.host_string][0] + ' Succeed!\n'
-            pretty_log.write(success_msg)
-            pretty_log.close()
-            raw_log.write(success_msg)
-        else:
+    with settings(user=usuario_sbc, password=password_sbc, warn_only=True):
+        try:
+            resultado = get(sbc_backup_path, folder)
+            if resultado.succeeded:
+                success_msg = traductor[env.host_string][0] + ' Succeed!\n'
+                pretty_log.write(success_msg)
+                pretty_log.close()
+                raw_log.write(success_msg)
+            else:
+                raise Exception('Error al hacer scp al equipo' + traductor[env.host_string][0])
+        except Exception as e:
             err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
+            err_msg += 'El equipo al que no se le pudo respaldar la configuracion fue: ' + traductor[env.host_string][0] + '\n'
+            err_msg += 'El error fue: ' + str(e)
             try:
-                send_alert(traductor[env.host_string][0])
+                subject = 'Alerta de falla en el respaldo de configuraciones.'
+                body = err_msg
+                send_mail(subject, body)
             except:
                 err_msg += 'No se pudo enviar el mail!\n'
             pretty_log.write(err_msg)
