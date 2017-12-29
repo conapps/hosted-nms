@@ -272,6 +272,10 @@ def respaldar_sbc():
 
     print('CORRIENDO RESPALDAR_SBC')
     raw_log.write('CORRIENDO RESPALDAR_SBC')
+
+    print('usuario sbc: ', usuario_sbc_posta)
+    print('pass sbc: ', password_sbc_posta)
+
     print('Respaldando: ' + traductor[env.host_string][0])
     raw_log.write('Respaldando: ' + traductor[env.host_string][0])
 
@@ -304,9 +308,9 @@ def respaldar_sbc():
 
 def respaldar_configuraciones():
     if traductor[env.host_string][1] == 'cisco':
-        respaldar_cisco()
+        #respaldar_cisco()
     elif traductor[env.host_string][1] == 'vyos':
-        respaldar_vyos()
+        #respaldar_vyos()
     elif traductor[env.host_string][1] == 'osv':
         #respaldar_osv()
     elif traductor[env.host_string][1] == 'sbc':
