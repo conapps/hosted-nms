@@ -11,7 +11,7 @@ credentials_file = '/root/.credentials'
 
 accouting_ip = '172.16.0.105'
 
-backup_cdr_root = '/cdr-backups/'
+backup_cdr_root = '/cdr-backups'
 
 backup_cdr_osv1 = '/bkp-cdr-osv1'
 backup_cdr_osv2 = '/bkp-cdr-osv2'
