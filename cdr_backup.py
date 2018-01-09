@@ -5,16 +5,12 @@ mnt_dest_cdr_osv2 = '/mnt-folder-osv2'
 remote_cdr_osv1 = '/osv1'
 remote_cdr_osv2 = '/osv2'
 
-sub_folder_backup_osv1 = '/osv1'
-sub_folder_backup_osv2 = '/osv2'
+
 credentials_file = '/root/.credentials'
 
 accouting_ip = '172.16.0.105'
 
 backup_cdr_root = '/cdr-backups'
-
-backup_cdr_osv1 = '/bkp-cdr-osv1'
-backup_cdr_osv2 = '/bkp-cdr-osv2'
 
 
 print('Mounting remote folder //' + accouting_ip + remote_cdr_osv1 + ' in ' + mnt_dest_cdr_osv1 + '')
@@ -22,7 +18,7 @@ os.system("mount -t cifs -o credentials=" + credentials_file + " //" + accouting
           mnt_dest_cdr_osv1 + "")
 
 print ('Starting files copy from : //' + accouting_ip + " folder: " + remote_cdr_osv1)
-os.system("cp -v " + mnt_dest_cdr_osv1 + "/* " + backup_cdr_root + backup_cdr_osv1 + "/")
+os.system("cp -v " + mnt_dest_cdr_osv1 + "/* " + backup_cdr_root + "")
 print ('Finishing files copy from : //' + accouting_ip + " folder: " + remote_cdr_osv1)
 
 print('Unmounting remote folder //' + accouting_ip + remote_cdr_osv1 + '')
@@ -34,7 +30,7 @@ os.system("mount -t cifs -o credentials=" + credentials_file + " //" + accouting
           mnt_dest_cdr_osv2 + "")
 
 print ('Starting files copy from  : //' + accouting_ip + " folder: " + remote_cdr_osv2)
-os.system("cp -v " + mnt_dest_cdr_osv2 + "/* " + backup_cdr_root + backup_cdr_osv2 + "/")
+os.system("cp -v " + mnt_dest_cdr_osv2 + "/* " + backup_cdr_root + "")
 print ('Finishing files copy from : //' + accouting_ip + " folder: " + remote_cdr_osv2)
 
 print('Unmounting remote folder //' + accouting_ip + remote_cdr_osv2 + '')
