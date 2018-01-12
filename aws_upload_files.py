@@ -22,7 +22,7 @@ except Exception as e:
 #Uplado cdr backups to AWS S2
 try:
     path_configs = "/cdr-backups/"
-    folder = "/CDR-Backups/"
+    folder = "/cdr-backups/"
     upload_dir_content(path_configs, path_cloud + folder, True)
 except Exception as e:
     print("ERROR! uploading folder: " + folder + "\n")
