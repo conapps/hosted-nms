@@ -19,11 +19,13 @@ except Exception as e:
     print("Details of error: ", e)
     send_mail("ERROR uploading folder to S3", str(e))
 
-#Uplado cdr backups to AWS S2
+#Upload cdr backups to AWS S2
 try:
     path_configs = "/cdr-backups/"
-    folder = "/cdr-backups/"
-    upload_dir_content(path_configs, path_cloud + folder, True)
+    folder = "/importiert/"
+    upload_dir_content(path_configs + folder, path_cloud + folder, True)
+    folder = "/received_archive/"
+    upload_dir_content(path_configs + folder, path_cloud + folder, True)
 except Exception as e:
     print("ERROR! uploading folder: " + folder + "\n")
     print("Details of error: ", e)
