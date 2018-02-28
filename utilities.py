@@ -42,7 +42,7 @@ def send_alert(equipo):
         smtpObj = smtplib.SMTP('conatel-com-uy.mail.protection.outlook.com', '25')
         smtpObj.sendmail(sender, receivers, message)
         print("Successfully sent email")
-    except SMTPException:
+    except smtplib.SMTPException:
         print("Error: unable to send email")
 
 
@@ -56,5 +56,5 @@ def send_mail(subject, body):
         smtpObj = smtplib.SMTP('conatel-com-uy.mail.protection.outlook.com', '25')
         smtpObj.sendmail(sender, receivers, message)
         print("Successfully sent email")
-    except SMTPException:
+    except smtplib.SMTPException:
         print("Error: unable to send email")
