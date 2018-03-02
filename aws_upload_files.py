@@ -19,7 +19,7 @@ except Exception as e:
     print("Details of error: ", e)
     send_mail("ERROR uploading folder to S3", str(e))
 
-#Upload cdr backups to AWS S2
+#Upload cdr files from Accounting server to AWS S3
 try:
     local_path = "/cdr-backups"
     s3_prefix = "/CDRs"
@@ -29,5 +29,19 @@ try:
     upload_dir_content(local_path + folder, path_cloud + s3_prefix + folder, True)
 except Exception as e:
     print("ERROR! uploading folder: " + folder + "\n")
+    print("Details of error: ", e)
+    send_mail("ERROR uploading folder to S3", str(e))
+
+
+#Upload cdr files from OSVs servers to AWS S3
+
+try:
+    local_path = "/configs/"
+    s3_prefix = "CDRs"
+    s3_prefix_osv = "OSVs"
+    folder = "CDRs"
+    upload_dir_content(local_path + folder, path_cloud + s3_prefix + s3_prefix_osv, False)
+except Exception as e:
+    print("ERROR! updating folder: " + folder + "\n")
     print("Details of error: ", e)
     send_mail("ERROR uploading folder to S3", str(e))
