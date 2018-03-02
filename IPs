@@ -1,7 +1,7 @@
 #################################################################################################
 ### Este archivo contiene las IPs de los dispositivos a respaldar.                            ###
 ### Los campos se separan por "," COLOCANDO UN EQUIPO DISTINTO EN UNA LÍNEA DISTINTA          ###
-### El formato de una línea es: ip_equipo, hostname, [cisco,vyos]							  ###	
+### El formato de una línea es: ip_equipo, hostname, [cisco,vyos,sbc,osv]					  ###
 #################################################################################################
 
 
@@ -23,3 +23,4 @@
 192.168.22.104, antel_sbc_Internet_2, sbc
 192.168.22.105, antel_sbc_NGN_2, sbc
 172.16.0.6, antel_osv_1, osv
+172.17.0.7, antel_osv_2, osv
