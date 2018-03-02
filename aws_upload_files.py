@@ -38,7 +38,7 @@ except Exception as e:
 try:
     local_path = "/configs/"
     s3_prefix = "/CDRs"
-    s3_prefix_osv = "/OSVs"
+    s3_prefix_osv = "/OSVs/"
     folder = "/CDRs/"
     upload_dir_content(local_path + folder, path_cloud + s3_prefix + s3_prefix_osv, False)
 except Exception as e:
