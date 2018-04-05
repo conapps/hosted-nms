@@ -54,7 +54,7 @@ path_cloud = "certificados"
 try:
     path_configs = "/configs/"
     folder = "/CA/"
-    upload_dir_content(path_configs + folder, path_cloud + folder, True)
+    upload_dir_content(path_configs + folder, path_cloud + folder, False)
 
 except Exception as e:
     print("ERROR! uploading folder: " + folder + "\n")
