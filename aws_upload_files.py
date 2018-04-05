@@ -45,3 +45,18 @@ except Exception as e:
     print("ERROR! updating folder: " + folder + "\n")
     print("Details of error: ", e)
     send_mail("ERROR uploading folder to S3", str(e))
+
+
+
+path_cloud = "certificados"
+
+#Upload CA certificates to AWS S3
+try:
+    path_configs = "/configs/"
+    folder = "/CA/"
+    upload_dir_content(path_configs + folder, path_cloud + folder, True)
+
+except Exception as e:
+    print("ERROR! uploading folder: " + folder + "\n")
+    print("Details of error: ", e)
+    #send_mail("ERROR uploading folder to S3", str(e))
