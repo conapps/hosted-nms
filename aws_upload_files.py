@@ -55,8 +55,7 @@ try:
     path_configs = "/configs/"
     folder = "/CA/"
     upload_dir_content(path_configs + folder, path_cloud + folder, False)
-
 except Exception as e:
     print("ERROR! uploading folder: " + folder + "\n")
     print("Details of error: ", e)
-    #send_mail("ERROR uploading folder to S3", str(e))
+    send_mail("ERROR uploading folder to S3", str(e))
