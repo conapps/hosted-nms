@@ -15,7 +15,7 @@ carpeta_de_backups = '/config-backups/'
 subcarpeta_de_fws = 'FWs/'
 subcarpeta_de_sbcs = 'SBCs/'
 subcarpeta_de_osvs = 'OSVs/'
-subcarpeta_de_cdrs = 'CDRs/'
+#subcarpeta_de_cdrs = 'CDRs/'
 carpeta_de_logs = '/logs-backups/'
 archivo_de_logs = carpeta_de_logs + 'pretty_log.log'
 archivo_de_logs_crudos = carpeta_de_logs + 'log.log'
@@ -313,46 +313,50 @@ def respaldar_sbc():
     raw_log.close()
 
 # Funcion que respalda los archivos cdr tomados desde las osv
-def respaldar_cdr():
-    # Abro el archivo de logs para loggear el resultado
-    pretty_log = open(archivo_de_logs, 'a')
-    raw_log = open(archivo_de_logs_crudos, 'a')
+# Funcion Comentada dado que se van a respaldar con otro contenedor (Una vez que el otro contenedor quede funcionando ok
+# borro este código
 
-    print('CORRIENDO RESPALDAR_CDR ')
-    raw_log.write('CORRIENDO RESPALDAR_CDR ')
-    print('Respaldando: ' + traductor[env.host_string][0])
-    raw_log.write('Respaldando: ' + traductor[env.host_string][0])
 
-    try:
-        with settings(user=usuario_osv, password=password_osv, warn_only=True, command_timeout=300):
-            resultado = get('/cdr/*', carpeta_de_backups + subcarpeta_de_cdrs)
-        if resultado.failed:
-            err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
-            try:
-                send_alert(traductor[env.host_string][0])
-            except:
-                err_msg += 'No se pudo enviar el mail!\n'
-            print(err_msg)
-            pretty_log.write(err_msg)
-            pretty_log.close()
-            raw_log.write(err_msg)
-        else:
-            success_msg = traductor[env.host_string][0] + ' Succeed!\n'
-            print(success_msg)
-            pretty_log.write(success_msg)
-            pretty_log.close()
-            raw_log.write(success_msg)
-    except:
-        err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
-        try:
-            send_alert(traductor[env.host_string][0])
-        except:
-            err_msg += 'No se pudo enviar el mail!\n'
-        print(err_msg)
-        pretty_log.write(err_msg)
-        pretty_log.close()
-        raw_log.write(err_msg)
-    raw_log.close()
+# def respaldar_cdr():
+#     # Abro el archivo de logs para loggear el resultado
+#     pretty_log = open(archivo_de_logs, 'a')
+#     raw_log = open(archivo_de_logs_crudos, 'a')
+#
+#     print('CORRIENDO RESPALDAR_CDR ')
+#     raw_log.write('CORRIENDO RESPALDAR_CDR ')
+#     print('Respaldando: ' + traductor[env.host_string][0])
+#     raw_log.write('Respaldando: ' + traductor[env.host_string][0])
+#
+#     try:
+#         with settings(user=usuario_osv, password=password_osv, warn_only=True, command_timeout=300):
+#             resultado = get('/cdr/*', carpeta_de_backups + subcarpeta_de_cdrs)
+#         if resultado.failed:
+#             err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
+#             try:
+#                 send_alert(traductor[env.host_string][0])
+#             except:
+#                 err_msg += 'No se pudo enviar el mail!\n'
+#             print(err_msg)
+#             pretty_log.write(err_msg)
+#             pretty_log.close()
+#             raw_log.write(err_msg)
+#         else:
+#             success_msg = traductor[env.host_string][0] + ' Succeed!\n'
+#             print(success_msg)
+#             pretty_log.write(success_msg)
+#             pretty_log.close()
+#             raw_log.write(success_msg)
+#     except:
+#         err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
+#         try:
+#             send_alert(traductor[env.host_string][0])
+#         except:
+#             err_msg += 'No se pudo enviar el mail!\n'
+#         print(err_msg)
+#         pretty_log.write(err_msg)
+#         pretty_log.close()
+#         raw_log.write(err_msg)
+#     raw_log.close()
 
 
 def respaldar_configuraciones():
@@ -362,7 +366,7 @@ def respaldar_configuraciones():
         respaldar_vyos()
     elif traductor[env.host_string][1] == 'osv':
         respaldar_osv()
-        respaldar_cdr()
+        #respaldar_cdr()
     elif traductor[env.host_string][1] == 'sbc':
         respaldar_sbc()
 
