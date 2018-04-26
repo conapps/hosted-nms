@@ -44,7 +44,7 @@ try:
 except Exception as e:
     print("ERROR! updating folder: " + folder + "\n")
     print("Details of error: ", e)
-    send_mail("ERROR uploading folder to S3", str(e)
+    send_mail("ERROR uploading folder to S3", str(e))
 
 
 
