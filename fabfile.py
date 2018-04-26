@@ -312,10 +312,11 @@ def respaldar_sbc():
             raw_log.write('Los paths remotos que no se pudieron descargar fueron: ' + resultado.failed)
     raw_log.close()
 
+
+
 # Funcion que respalda los archivos cdr tomados desde las osv
 # Funcion Comentada dado que se van a respaldar con otro contenedor (Una vez que el otro contenedor quede funcionando ok
 # borro este código
-
 
 # def respaldar_cdr():
 #     # Abro el archivo de logs para loggear el resultado
