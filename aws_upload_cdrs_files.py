@@ -8,7 +8,7 @@ try:
     s3_prefix = "/CDRs"
     s3_prefix_osv = "/OSVs/"
     folder = "/CDRs/"
-    upload_dir_content(local_path + folder, path_cloud + s3_prefix + s3_prefix_osv, False)
+    upload_dir_content(local_path + folder, path_cloud + s3_prefix + s3_prefix_osv, True)
 except Exception as e:
     print("ERROR! updating folder: " + folder + "\n")
     print("Details of error: ", e)
