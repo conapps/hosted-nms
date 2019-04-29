@@ -23,6 +23,7 @@ password_osv = 'T@R63dis'
 usuario_sbc = 'administrator'
 password_sbc = 'Asd123!.'
 sbc_backup_path = '/opt/openbranch/var/mngmt/xml/v9.4/*.xml'
+old_sbc_backup_path = '/opt/siemens/openbranch/var/mngmt/xml/v9.2/*.xml'
 # Armo un string con la hora de la corrida
 ahora_string = datetime.now().strftime('%Y-%m-%d__%H-%M-%S')
 
@@ -285,6 +286,7 @@ def respaldar_sbc():
     # Me conecto y le pido a la OSV que haga el respaldo
     with settings(user=usuario_sbc, password=password_sbc, warn_only=True):
         try:
+            # comando correspondiente a la ultima version
             resultado = get(sbc_backup_path, folder)
             if resultado.succeeded:
                 success_msg = traductor[env.host_string][0] + ' Succeed!\n'
@@ -292,6 +294,13 @@ def respaldar_sbc():
                 pretty_log.close()
                 raw_log.write(success_msg)
             else:
+                # comando correspondiente a la version anterior
+                otro_resultado = get(old_sbc_backup_path, folder)
+                if otro_resultado.succeeded:
+                    success_msg = traductor[env.host_string][0] + ' Succeed!\n'
+                    pretty_log.write(success_msg)
+                    pretty_log.close()
+                    raw_log.write(success_msg)
                 raise Exception('Error al hacer scp al equipo' + traductor[env.host_string][0])
         except Exception as e:
             err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
