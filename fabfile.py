@@ -301,7 +301,8 @@ def respaldar_sbc():
                     pretty_log.write(success_msg)
                     pretty_log.close()
                     raw_log.write(success_msg)
-                raise Exception('Error al hacer scp al equipo' + traductor[env.host_string][0])
+                else:
+                    raise Exception('Error al hacer scp al equipo' + traductor[env.host_string][0])
         except Exception as e:
             err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
             err_msg += 'El equipo al que no se le pudo respaldar la configuracion fue: ' + traductor[env.host_string][0] + '\n'
