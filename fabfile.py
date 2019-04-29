@@ -22,7 +22,7 @@ usuario_osv = 'root'
 password_osv = 'T@R63dis'
 usuario_sbc = 'administrator'
 password_sbc = 'Asd123!.'
-sbc_backup_path = '/opt/siemens/openbranch/var/mngmt/xml/v9.2/*.xml'
+sbc_backup_path = '/opt/openbranch/var/mngmt/xml/v9.4/*.xml'
 # Armo un string con la hora de la corrida
 ahora_string = datetime.now().strftime('%Y-%m-%d__%H-%M-%S')
 
