@@ -297,21 +297,11 @@ def respaldar_sbc():
                 pretty_log.close()
                 raw_log.write(success_msg)
             else:
-                # comando correspondiente a la version anterior
-                otro_resultado = get(old_sbc_backup_path, folder)
-                if otro_resultado.succeeded:
-                    success_msg = traductor[env.host_string][0] + ' Succeed!\n'
-                    pretty_log.write(success_msg)
-                    pretty_log.close()
-                    raw_log.write(success_msg)
-                else:
-                    raise Exception('Error al hacer scp al equipo' + traductor[env.host_string][0])
+                raise Exception('Error al hacer scp al equipo' + traductor[env.host_string][0])
         except Exception as e:
             err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
             err_msg += 'El equipo al que no se le pudo respaldar la configuracion fue: ' + traductor[env.host_string][0] + '\n'
-            #err_msg += 'El error fue: ' + str(e)
-            err_msg += 'El error fue: ' + str(sbcs_backup_paths[env.host_string]) + '/*.xml\n'
-            err_msg += 'El error fue: ' + str(sbcs_backup_paths)
+            err_msg += 'El error fue: ' + str(e)
             try:
                 subject = 'Alerta de falla en el respaldo de configuraciones.'
                 body = err_msg
