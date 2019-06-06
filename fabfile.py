@@ -286,10 +286,11 @@ def respaldar_sbc():
     if not os.path.exists(folder):
         os.makedirs(folder)
 
-    # Me conecto y le pido a la OSV que haga el respaldo
+    # Me conecto y hago el respaldo
     with settings(user=usuario_sbc, password=password_sbc, warn_only=True):
         try:
             # comando correspondiente a la ultima version
+            raise Exception(str(sbcs_backup_paths[env.host_string]) + '/*.xml')
             print(str(sbcs_backup_paths[env.host_string]) + '/*.xml')
             resultado = get(str(sbcs_backup_paths[env.host_string]) + '/*.xml', folder)
             if resultado.succeeded:

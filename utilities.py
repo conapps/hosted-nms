@@ -48,7 +48,8 @@ def send_alert(equipo):
 
 def send_mail(subject, body):
     sender = 'hostedPBX@conatel.com.uy'
-    receivers = ['unifyteam@conatel.com.uy']
+    #receivers = ['unifyteam@conatel.com.uy']
+    receivers = ['ialmandos@conatel.com.uy']
 
     message = 'From: Alertas de HostedPBX <hostedPBX@contel.com.uy>\nTo: Ismael Almandos <ialmandos@conatel.com.uy>\nSubject: ' + subject + '.\n\n ' + body + ' \n'
 
