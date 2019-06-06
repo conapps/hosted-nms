@@ -312,7 +312,8 @@ def respaldar_sbc():
             err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
             err_msg += 'El equipo al que no se le pudo respaldar la configuracion fue: ' + traductor[env.host_string][0] + '\n'
             #err_msg += 'El error fue: ' + str(e)
-            err_msg += 'El error fue: ' + str(sbcs_backup_paths[env.host_string]) + '/*.xml'
+            #err_msg += 'El error fue: ' + str(sbcs_backup_paths[env.host_string]) + '/*.xml'
+            err_msg += 'El error fue: ' + str(traductor)
             try:
                 subject = 'Alerta de falla en el respaldo de configuraciones.'
                 body = err_msg
