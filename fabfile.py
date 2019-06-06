@@ -290,7 +290,8 @@ def respaldar_sbc():
     with settings(user=usuario_sbc, password=password_sbc, warn_only=True):
         try:
             # comando correspondiente a la ultima version
-            resultado = get(sbcs_backup_paths[env.host_string] + '/*.xml', folder)
+            print(str(sbcs_backup_paths[env.host_string]) + '/*.xml')
+            resultado = get(str(sbcs_backup_paths[env.host_string]) + '/*.xml', folder)
             if resultado.succeeded:
                 success_msg = traductor[env.host_string][0] + ' Succeed!\n'
                 pretty_log.write(success_msg)
