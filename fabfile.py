@@ -23,7 +23,7 @@ password_osv = 'T@R63dis'
 usuario_sbc = 'administrator'
 password_sbc = 'Asd123!.'
 #sbc_backup_path = '/opt/openbranch/var/mngmt/xml/v9.4/*.xml'
-#old_sbc_backup_path = '/opt/siemens/openbranch/var/mngmt/xml/v9.2/*.xml,?\s?([/\w\d\.]+)?'
+#old_sbc_backup_path = '/opt/siemens/openbranch/var/mngmt/xml/v9.2/*.xml'
 sbcs_backup_paths = {}
 # Armo un string con la hora de la corrida
 ahora_string = datetime.now().strftime('%Y-%m-%d__%H-%M-%S')
@@ -31,13 +31,13 @@ ahora_string = datetime.now().strftime('%Y-%m-%d__%H-%M-%S')
 # Recorro el archivo de IPs linea por linea eliminando los enters y generando un array con las IPs
 for linea in archivo_de_ips.readlines():
     try:
-        parsed_line = re.search('^\s*(\d+\.\d+.\d+\.\d+),\s*([^\s\n,]+),\s*(cisco|vyos|osv|sbc)', linea)
+        parsed_line = re.search('^\s*(\d+\.\d+.\d+\.\d+),\s*([^\s\n,]+),\s*(cisco|vyos|osv|sbc),?\s?([/\w\d\.]+)?', linea)
         lista_de_ips.append(parsed_line.group(1))
         hostname = parsed_line.group(2)
         sis_op = parsed_line.group(3)
         traductor.update({lista_de_ips[len(lista_de_ips) - 1]: (hostname, sis_op)})
         if sis_op == 'sbc':
-            sbcs_backup_paths[str(parsed_line.group(1))] = parsed_line.group(4)
+            sbcs_backup_paths[parsed_line.group(1)] = parsed_line.group(4)
     except:
         pass
 
