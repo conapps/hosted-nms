@@ -290,9 +290,7 @@ def respaldar_sbc():
     with settings(user=usuario_sbc, password=password_sbc, warn_only=True):
         try:
             # comando correspondiente a la ultima version
-            raise Exception(str(sbcs_backup_paths[env.host_string]) + '/*.xml')
-            print(str(sbcs_backup_paths[env.host_string]) + '/*.xml')
-            resultado = get(str(sbcs_backup_paths[env.host_string]) + '/*.xml', folder)
+            resultado = get(sbcs_backup_paths[env.host_string] + '/*.xml', folder)
             if resultado.succeeded:
                 success_msg = traductor[env.host_string][0] + ' Succeed!\n'
                 pretty_log.write(success_msg)
@@ -312,7 +310,7 @@ def respaldar_sbc():
             err_msg = 'ATENCION!!!! ' + traductor[env.host_string][0] + ' Failed!\n'
             err_msg += 'El equipo al que no se le pudo respaldar la configuracion fue: ' + traductor[env.host_string][0] + '\n'
             #err_msg += 'El error fue: ' + str(e)
-            #err_msg += 'El error fue: ' + str(sbcs_backup_paths[env.host_string]) + '/*.xml'
+            err_msg += 'El error fue: ' + str(sbcs_backup_paths[env.host_string]) + '/*.xml\n'
             err_msg += 'El error fue: ' + str(sbcs_backup_paths)
             try:
                 subject = 'Alerta de falla en el respaldo de configuraciones.'
