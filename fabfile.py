@@ -22,8 +22,9 @@ usuario_osv = 'root'
 password_osv = 'T@R63dis'
 usuario_sbc = 'administrator'
 password_sbc = 'Asd123!.'
-sbc_backup_path = '/opt/openbranch/var/mngmt/xml/v9.4/*.xml'
-old_sbc_backup_path = '/opt/siemens/openbranch/var/mngmt/xml/v9.2/*.xml'
+#sbc_backup_path = '/opt/openbranch/var/mngmt/xml/v9.4/*.xml'
+#old_sbc_backup_path = '/opt/siemens/openbranch/var/mngmt/xml/v9.2/*.xml,?\s?([/\w\d\.]+)?'
+sbcs_backup_paths = {}
 # Armo un string con la hora de la corrida
 ahora_string = datetime.now().strftime('%Y-%m-%d__%H-%M-%S')
 
@@ -35,6 +36,8 @@ for linea in archivo_de_ips.readlines():
         hostname = parsed_line.group(2)
         sis_op = parsed_line.group(3)
         traductor.update({lista_de_ips[len(lista_de_ips) - 1]: (hostname, sis_op)})
+        if sis_op == 'sbc':
+            sbcs_backup_paths[str(parsed_line.group(1))] = parsed_line.group(4)
     except:
         pass
 
@@ -287,7 +290,7 @@ def respaldar_sbc():
     with settings(user=usuario_sbc, password=password_sbc, warn_only=True):
         try:
             # comando correspondiente a la ultima version
-            resultado = get(sbc_backup_path, folder)
+            resultado = get(sbcs_backup_paths[env.host_string], folder)
             if resultado.succeeded:
                 success_msg = traductor[env.host_string][0] + ' Succeed!\n'
                 pretty_log.write(success_msg)
