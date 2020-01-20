@@ -17,7 +17,7 @@
 #192.168.255.15, antel_fw_1_5, vyos
 #192.168.255.31, conatel_fw_3_1, vyos
 #192.168.2.103, antel_sbc_Clientes_1, sbc, /opt/openbranch/var/mngmt/xml/v9.4
-192.168.2.104, antel_sbc_Internet_1, sbc, /opt/siemens/openbranch/var/mngmt/xml/v9.2
+192.168.2.104, antel_sbc_Internet_1, sbc, /opt/openbranch/var/mngmt/xml/v9.4
 #192.168.2.105, antel_sbc_NGN_1, sbc, /opt/siemens/openbranch/var/mngmt/xml/v9.2
 #192.168.22.103, antel_sbc_Clientes_2, sbc, /opt/openbranch/var/mngmt/xml/v9.4
 #192.168.22.104, antel_sbc_Internet_2, sbc, /opt/siemens/openbranch/var/mngmt/xml/v9.3
